@@ -1,8 +1,10 @@
 {
-    "name": "grandwikijs",
-    "description": "reste à faire",
-    "version": "0.1.0",
+    "name": "gpio-wapi",
+    "version": "0.0.1",
+    "description": "API web de gestion du port GPIO d'un raspberry",
+    "author": "dahu-chao",
     "dependencies": {
-        "express": "3.x"
+        "express": "3.x",
+        "pi-gpio": "0.0.7"
     }
 }
