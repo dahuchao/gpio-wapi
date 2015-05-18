@@ -1,10 +1,10 @@
 {
-  "name": "testRaspberry",
-  "version": "0.0.0",
+  "name": "gpio-web",
+  "version": "0.0.1",
   "authors": [
     "dahuchao <dahuchao.github@laposte.net>"
   ],
-  "description": "Test allumage et extinction.",
+  "description": "Ecran d'allumage et extinction du port 7.",
   "moduleType": [
     "node"
   ],
