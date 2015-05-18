@@ -1,0 +1,25 @@
+{
+  "name": "testRaspberry",
+  "version": "0.0.0",
+  "authors": [
+    "dahuchao <dahuchao.github@laposte.net>"
+  ],
+  "description": "Test allumage et extinction.",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.3.15",
+    "angular-resource": "latest",
+    "angular-bootstrap": "0.10.0",
+    "bootstrap": "~3.3.4"
+  }
+}
