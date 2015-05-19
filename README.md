@@ -46,7 +46,10 @@ Documentation
 
 ### Installation
 
+L'installation et la configuration réseau du RASPBERRY PI est un prérequis.
+
 L'installation de nodejs est un prérequis.
+
 L'installation de bower est un prérequis :
 > sudo npm install bower -g
 
