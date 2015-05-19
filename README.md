@@ -14,11 +14,11 @@ Ce service est une application Polymer (ou plutot sera).
 
 ### Exemples
 
-Lire l'état de la broche (pin) 5 du port GPIO.
+Lire l'état de la broche (pin) 7 du port GPIO.
 
 Requête : 
 
-    GET /gpio/broches/5 HTTP/1.1
+    GET /gpio/broches/7 HTTP/1.1
     Host: <www>
 
 Réponse : 
@@ -29,12 +29,12 @@ Réponse :
         context:{
             gpio: http://www/gpio/vocabulaire
         }
-        @id: http://www/gpio/broches/5,
+        @id: http://www/gpio/broches/7,
         @type: gpio:Etat,
         etat: true
     }
 
-La requête renvoie l'état de la broche (pin) 5 du port GPIO.
+La requête renvoie l'état de la broche (pin) 7 du port GPIO.
 
 Exemple d'intégration dans une page web.
 
