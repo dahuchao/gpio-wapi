@@ -9,8 +9,11 @@ Serveur web offrant une API Web REST full sur un RASPBERRY PI pour la consultati
 Exemple : HTTP GET http://www/gpio/5
 La requête renvoie l'état du canal pin 5 du port GPIO.
 
-Exemple : 
+Exemple d'intégration dans une page web.
 
+Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package/rpi-gpio
+Ce service est une application Polymer (ou plutot sera) : 
+<pi-gpio>7</pi-gpio>
 
 Documentation
 -------------
@@ -18,12 +21,21 @@ Documentation
 ### Installation
 
 L'installation de nodejs est un prérequis.
-L'installation de bower est un prérequis.
+L'installation de bower est un prérequis :
 > sudo npm install bower -g
 
-Dans le répertoire de l'application lancer la commande de résolution des dépendance npm.
+Dans le répertoire de l'application lancer la commande de résolution des dépendance npm : 
 > npm install
 
-Dans le répertoire de l'application lancer la commande de résolution des dépendances bower.
+Dans le répertoire de l'application lancer la commande de résolution des dépendances bower : 
 > bower install
+
+### Utilisation
+
+Lancer le serveur web expressjs : 
+> sudo node serveur.js
+
+Le serveur est à l'écoute sur le port 3000 à l'adresse de votre RASPBERRY PI.
+
+Ouvrir votre navigateur préféré à l'adresse suivante : http://<addresse-ip-pi>:3000/lumiere
 
