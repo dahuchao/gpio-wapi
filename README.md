@@ -8,7 +8,7 @@ Serveur web offrant une API Web REST full sur un RASPBERRY PI pour la consultati
 
 ### Exemple
 
-Lire l'état du canal 5 du port GPIO.
+Lire l'état de la broche (pin) 5 du port GPIO.
 
 Requête : 
 
@@ -23,8 +23,8 @@ Réponse :
         context:{
             gpio: http://www/gpio/vocabulaire
         }
-        id: http://www/gpio/broches/5,
-        type: gpio:Etat,
+        @id: http://www/gpio/broches/5,
+        @type: gpio:Etat,
         etat: true
     }
 
@@ -33,6 +33,7 @@ La requête renvoie l'état de la broche (pin) 5 du port GPIO.
 Exemple d'intégration dans une page web.
 
 Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package/rpi-gpio
+Ce service est une application du web sémantique des données. Les données échangées respectent la syntaxe json-ld (W3C) et hydra (W3C).
 Ce service est une application Polymer (ou plutot sera) : 
 
     <gpio-broche>7</gpio-broche>
