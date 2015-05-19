@@ -41,8 +41,8 @@ app.get('/gpio/broches/:broche', function (req, rep) {
                 context: {
                     gpio: 'http://www/',
                 },
-                @id: 'http://www/gpio/broches/7',
-                @type: 'gpio:Etat',
+                '@id': 'http://www/gpio/broches/7',
+                '@type': 'gpio:Etat',
                 etat: etat
             }
             rep.send(broche);
