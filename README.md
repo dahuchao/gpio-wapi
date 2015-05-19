@@ -33,7 +33,7 @@ La requête renvoie l'état de la broche (pin) 5 du port GPIO.
 Exemple d'intégration dans une page web.
 
 Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package/rpi-gpio
-Ce service est une application du web sémantique des données. Les données échangées respectent la syntaxe json-ld (W3C) et hydra (W3C).
+Ce service est une application du web sémantique des données. Les données échangées respectent le format RDF, la syntaxe json-ld (W3C) et hydra (W3C) et définit un vocabulaire pour la description de l'état d'une port GPIO sur RASPBERRY.
 Ce service est une application Polymer (ou plutot sera) : 
 
     <gpio-broche>7</gpio-broche>
