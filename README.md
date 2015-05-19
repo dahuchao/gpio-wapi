@@ -6,14 +6,19 @@ Introduction
 
 Serveur web offrant une API Web REST full sur un RASPBERRY PI pour la consultation de l'état du port GPIO. Le serveur présente également des composants web (Web Component du W3C).
 
-Exemple : HTTP GET http://www/gpio/5
+Exemple : 
+
+    HTTP GET http://www/gpio/5
+
 La requête renvoie l'état du canal pin 5 du port GPIO.
 
 Exemple d'intégration dans une page web.
 
 Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package/rpi-gpio
 Ce service est une application Polymer (ou plutot sera) : 
-<pi-gpio>7</pi-gpio>
+
+    <pi-gpio>7</pi-gpio>
+ 
 
 Documentation
 -------------
