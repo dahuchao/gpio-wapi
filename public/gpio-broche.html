@@ -8,7 +8,7 @@
             <h1>Application d'allumage de la lumière.</h1>
             <div class="row bureau">
                 <div class="col-sm-12">
-                    <core-ajax url="http://192.168.1.30:3000/gpio/broches/7" method="POST" body='{"etat":"{{etat}}"}' auto>
+                    <core-ajax url="http://192.168.1.30:3000/gpio/broches/7" method="PUT" body='{"etat":"{{etat}}"}' auto>
                     </core-ajax>
                     <!-- shadow DOM here -->
                     <p>Etat : <span>{{etat}}</span>
