@@ -39,6 +39,12 @@ La requête renvoie l'état de la broche (pin) 7 du port GPIO.
 Exemple d'intégration dans une page web.
 
     <gpio-broche>7</gpio-broche>
+    
+    <!-- Import element -->
+    <link rel="import" href="gpio-broche.html">
+    
+    <!-- Use element -->
+    <gpio-broche pin="7"></gpio-broche>
 
 Documentation
 -------------
