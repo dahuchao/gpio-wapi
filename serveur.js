@@ -1,6 +1,8 @@
 'use strict';
 // Chargement du module expressjs
 var express = require('express');
+var bodyParser = require('body-parser');
+var multer = require('multer');
 // Chargement du module de gestion du système de fichier
 var fs = require('fs');
 // Chargement du module de gestion du port GPIO 
@@ -8,6 +10,7 @@ var gpio = require('rpi-gpio');
 
 // Création de l'application express
 var app = express();
+app.use(bodyParser.json());
 // Configuration de l'application express
 app.use(express.urlencoded());
 app.use(express.json());
@@ -22,9 +25,12 @@ app.use('/lumiere', express.static(repertoireSite));
 
 app.put('/gpio/broches/:broche', function (req, rep) {
     var broche = req.params.broche;
-    console.log('Alimentation de la broche ' + broche + '.');
+    console.log('Modification de la broche ' + broche + ':' + req.body);
     gpio.setup(broche, gpio.DIR_OUT, function () {
-        gpio.write(broche, true, function (err) {
+        // Calcul du nouvel état de la broche
+        var etat = req.body.etat;
+        // Changement de l'état de la broche
+        gpio.write(broche, etat, function (err) {
             if (err) throw err;
             rep.send('Allumage de la broche: ' + broche);
         });

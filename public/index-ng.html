@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="dcAlum">
 
 <head>
     <meta charset="utf-8">
@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Lumière actionneur</title>
+
     <!-- Bootstrap -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Polymer -->
@@ -15,7 +16,7 @@
     <link rel="import" href="gpio-broche.html">
 </head>
 
-<body>
+<body ng-controller="dcAlumController">
     <div class="container">
         <h1>Application d'allumage de la lumière.</h1>
         <div class="row bureau">
@@ -29,8 +30,15 @@
             </div>
         </div>
     </div>
+
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/angularjs/angular.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="dc-alum.js"></script>
 </body>
 
 </html>

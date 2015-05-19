@@ -1,9 +1,34 @@
-<polymer-element name="gpio-broche" constructor="TagName">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<polymer-element name="gpio-broche">
     <template>
-        <!-- shadow DOM here -->
-        <h1>test.</h1>
-        <button ng-click="allumer()" class="btn btn-default">Allumer</button>
-        <button ng-click="eteindre()" class="btn btn-default">Eteindre</button>
+        <div class="container">
+            <h1>Application d'allumage de la lumière.</h1>
+            <div class="row bureau">
+                <div class="col-sm-12">
+                    <core-ajax url="http://192.168.1.30:3000/gpio/broches/7" method="POST" body='{"etat":"{{etat}}"}' auto>
+                    </core-ajax>
+                    <!-- shadow DOM here -->
+                    <p>Etat : <span>{{etat}}</span>
+                    </p>
+                    <button on-click="{{allumer}}" class="btn btn-default">Allumer</button>
+                    <button on-click="{{eteindre}}" class="btn btn-default">Eteindre</button>
+                </div>
+            </div>
+        </div>
     </template>
-    <script src="gpio-broche.js"></script>
+    <script>
+        Polymer({
+            allumer: function () {
+                console.info('Allumer');
+                this.etat = true;
+            },
+            eteindre: function () {
+                console.info('Eteindre');
+                this.etat = false;
+            }
+        });
+    </script>
 </polymer-element>
