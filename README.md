@@ -9,9 +9,10 @@ Serveur web offrant une API Web REST full sur un RASPBERRY PI pour la consultati
 ### Exemple : 
 
 Lire l'état du canal 5 du port GPIO.
+
 Requête : 
 
-    GET /gpio/5 HTTP/1.1
+    GET /gpio/broches/5 HTTP/1.1
     Host: <www>
 
 Réponse : 
@@ -22,19 +23,19 @@ Réponse :
         context:{
             gpio: http://www/gpio/vocabulaire
         }
-        id: http://www/gpio/5,
+        id: http://www/gpio/broches/5,
         type: gpio:Etat,
         etat: true
     }
 
-La requête renvoie l'état du canal pin 5 du port GPIO.
+La requête renvoie l'état de la broche (pin) 5 du port GPIO.
 
 Exemple d'intégration dans une page web.
 
 Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package/rpi-gpio
 Ce service est une application Polymer (ou plutot sera) : 
 
-    <pi-gpio>7</pi-gpio>
+    <gpio-broche>7</gpio-broche>
  
 
 Documentation
