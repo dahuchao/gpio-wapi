@@ -20,23 +20,23 @@ if (!fs.existsSync(repertoireSite)) {
 }
 app.use('/lumiere', express.static(repertoireSite));
 
-app.put('/gpio/broches/7', function (req, res) {
-    res.send('Allumage du canal 7.');
-    gpio.setup(7, gpio.DIR_OUT, write);
-
-    function write() {
-        gpio.write(7, true, function (err) {
+app.put('/gpio/broches/:broche', function (req, rep) {
+    var broche = req.params.broche;
+    rep.send('Allumage de la broche:' + broche);
+    gpio.setup(broche, gpio.DIR_OUT, function () {
+        gpio.write(broche, true, function (err) {
             if (err) throw err;
-            console.log('Alimentation du canal 7.');
+            console.log('Alimentation de la broche ' + broche +'.');
         });
-    }
+    });
 });
 
-app.get('/gpio/broches/7', function (req, res) {
-    gpio.setup(7, gpio.DIR_IN, function () {
-        gpio.read(7, function (err, etat) {
+app.get('/gpio/broches/:broche', function (req, rep) {
+    var idBroche = req.params.broche;
+    gpio.setup(idBroche, gpio.DIR_IN, function () {
+        gpio.read(idBroche, function (err, etat) {
             if (err) throw err;
-            console.log('Lecture du canal 7 du GPIO.');
+            console.log('Lecture de la broche' + idBroche + ' du GPIO.');
             var broche = {
                 context: {
                     gpio: 'http://www/',
@@ -45,7 +45,7 @@ app.get('/gpio/broches/7', function (req, res) {
                 @type: 'gpio:Etat',
                 etat: etat
             }
-            res.send(broche);
+            rep.send(broche);
         });
     });
 });
