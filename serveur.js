@@ -12,41 +12,61 @@ var app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 // Répertoire des pages du site web
-var repertoireSite='.';
+var repertoireSite = '.';
 console.log('Ouverture du répertoire des pages du site web : ');
 console.log(repertoireSite);
-if(!fs.existsSync(repertoireSite)){
+if (!fs.existsSync(repertoireSite)) {
     console.error('Répertoire des pages indisponible');
 }
 app.use('/lumiere', express.static(repertoireSite));
 
-app.put('/gpio', function(req,res){
-	res.send('Allumage du canal 7.');
-	gpio.setup(7,gpio.DIR_OUT,write);
-	function write(){
-		gpio.write(7,true, function(err){
-			if(err) throw err;
-			console.log('Alimentation du canal 7.');
-		});
-	}
+app.put('/gpio/broches/7', function (req, res) {
+    res.send('Allumage du canal 7.');
+    gpio.setup(7, gpio.DIR_OUT, write);
+
+    function write() {
+        gpio.write(7, true, function (err) {
+            if (err) throw err;
+            console.log('Alimentation du canal 7.');
+        });
+    }
 });
 
-app.get('/allumer', function(req,res){
-	res.send('Allumage du canal 7.');
-	gpio.setup(7,gpio.DIR_OUT,write);
-	function write(){
-		gpio.write(7,true, function(err){
-			if(err) throw err;
-			console.log('Alimentation du canal 7.');
-		});
-	}
+app.get('/gpio/broches/7', function (req, res) {
+    gpio.setup(7, gpio.DIR_IN, function () {
+        gpio.read(7, function (err, etat) {
+            if (err) throw err;
+            console.log('Lecture du canal 7 du GPIO.');
+            var broche = {
+                context: {
+                    gpio: 'http://www/',
+                },
+                @id: 'http://www/gpio/broches/7',
+                @type: 'gpio:Etat',
+                etat: etat
+            }
+            res.send(broche);
+        });
+    });
 });
-app.get('/eteindre', function(req,res){
-	res.send('Eteindre le canal 7.');
-	gpio.write(7,false,function(err){
-		if(err) throw err;
-		console.log('Extinction du canal 7.');
-	});
+
+app.get('/allumer', function (req, res) {
+    res.send('Allumage du canal 7.');
+    gpio.setup(7, gpio.DIR_OUT, write);
+
+    function write() {
+        gpio.write(7, true, function (err) {
+            if (err) throw err;
+            console.log('Alimentation du canal 7.');
+        });
+    }
+});
+app.get('/eteindre', function (req, res) {
+    res.send('Eteindre le canal 7.');
+    gpio.write(7, false, function (err) {
+        if (err) throw err;
+        console.log('Extinction du canal 7.');
+    });
 });
 
 //**********************************************
