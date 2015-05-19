@@ -12,7 +12,7 @@ var app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 // Répertoire des pages du site web
-var repertoireSite = '.';
+var repertoireSite = 'public';
 console.log('Ouverture du répertoire des pages du site web : ');
 console.log(repertoireSite);
 if (!fs.existsSync(repertoireSite)) {
@@ -22,21 +22,21 @@ app.use('/lumiere', express.static(repertoireSite));
 
 app.put('/gpio/broches/:broche', function (req, rep) {
     var broche = req.params.broche;
-    rep.send('Allumage de la broche:' + broche);
+    console.log('Alimentation de la broche ' + broche + '.');
     gpio.setup(broche, gpio.DIR_OUT, function () {
         gpio.write(broche, true, function (err) {
             if (err) throw err;
-            console.log('Alimentation de la broche ' + broche +'.');
+            rep.send('Allumage de la broche: ' + broche);
         });
     });
 });
 
 app.get('/gpio/broches/:broche', function (req, rep) {
     var idBroche = req.params.broche;
+    console.log('Lecture de la broche ' + idBroche + ' du GPIO.');
     gpio.setup(idBroche, gpio.DIR_IN, function () {
         gpio.read(idBroche, function (err, etat) {
             if (err) throw err;
-            console.log('Lecture de la broche' + idBroche + ' du GPIO.');
             var broche = {
                 context: {
                     gpio: 'http://www/',
@@ -61,6 +61,7 @@ app.get('/allumer', function (req, res) {
         });
     }
 });
+
 app.get('/eteindre', function (req, res) {
     res.send('Eteindre le canal 7.');
     gpio.write(7, false, function (err) {
