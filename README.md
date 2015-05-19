@@ -6,9 +6,26 @@ Introduction
 
 Serveur web offrant une API Web REST full sur un RASPBERRY PI pour la consultation de l'état du port GPIO. Le serveur présente également des composants web (Web Component du W3C).
 
-Exemple : 
+### Exemple : 
 
-    HTTP GET http://www/gpio/5
+Lire l'état du canal 5 du port GPIO.
+Requête : 
+
+    GET /gpio/5 HTTP/1.1
+    Host: <www>
+
+Réponse : 
+
+    HTTP1/1 200 OK
+    
+    {
+        context:{
+            gpio: http://www/gpio/vocabulaire
+        }
+        id: http://www/gpio/5,
+        type: gpio:Etat,
+        etat: true
+    }
 
 La requête renvoie l'état du canal pin 5 du port GPIO.
 
