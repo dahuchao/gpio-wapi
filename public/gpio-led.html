@@ -1,0 +1,33 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<polymer-element name="gpio-led">
+    <template>
+        <div class="container">
+            <div class="row bureau">
+                <div class="col-sm-12">
+                    <core-ajax url="http://localhost:3000/gpio/led" method="PUT" body='{"etat":{{etat}}}' auto>
+                    </core-ajax>
+                    <!-- shadow DOM here -->
+                    <p>Etat: <span>{{etat}}</span>
+                    </p>
+                    <button on-click="{{allumer}}" class="btn btn-default">Allumer</button>
+                    <button on-click="{{eteindre}}" class="btn btn-default">Eteindre</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            allumer: function () {
+                console.info('Allumer');
+                this.etat = true;
+            },
+            eteindre: function () {
+                console.info('Eteindre');
+                this.etat = false;
+            }
+        });
+    </script>
+</polymer-element>

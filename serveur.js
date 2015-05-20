@@ -1,5 +1,5 @@
-'use strict';
 // Chargement du module expressjs
+var _ = require('lodash');
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -12,8 +12,12 @@ var gpio = require('rpi-gpio');
 var app = express();
 app.use(bodyParser.json());
 // Configuration de l'application express
-app.use(express.urlencoded());
-app.use(express.json());
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({
+    extended: true
+})); // for parsing application/x-www-form-urlencoded
+app.use(multer()); // for parsing multipart/form-data
+
 // Répertoire des pages du site web
 var repertoireSite = 'public';
 console.log('Ouverture du répertoire des pages du site web : ');
@@ -22,6 +26,21 @@ if (!fs.existsSync(repertoireSite)) {
     console.error('Répertoire des pages indisponible');
 }
 app.use('/lumiere', express.static(repertoireSite));
+
+function nettoyer(saleBody) {
+    //format de req.body { '{"etat":true}': ''}
+    var keys = Object.keys(saleBody);
+    var body = keys[0];
+    body = JSON.parse(body);
+    return body;
+}
+
+app.put('/gpio/led', function (req, rep) {
+    //format de req.body { '{"etat":true}': ''} objet Json mal formatté par Polymer
+    body = nettoyer(req.body);
+    var etat = body.etat;
+    console.log("Modification de l'état de la led: " + etat);
+});
 
 app.put('/gpio/broches/:broche', function (req, rep) {
     var broche = req.params.broche;

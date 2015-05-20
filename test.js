@@ -1,0 +1,16 @@
+//var exemple = "{ '{\"etat\":true}': ''}";
+var req = "{ '{\"etat\":true}': ''}";
+console.log("req: " + req);
+//var reg = /{ '({.*})': ''}/g;
+var reg = new RegExp("{ '({.*})': ''}", 'g');
+//if (!reg.test(req)) throw err;
+var res = reg.exec(req);
+console.log("res: " + res);
+//var res = res.match(reg);
+//console.log("res: " + res);
+var body = res[1];
+console.log("body: " + body);
+body = JSON.parse(body);
+var etat = body.etat;
+console.log("etat: " + etat);
+//debugger;

@@ -13,19 +13,20 @@
     <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
     <!-- Import element -->
     <link rel="import" href="gpio-broche.html">
+    <link rel="import" href="gpio-led.html">
 </head>
 
 <body>
     <div class="container">
-        <h1>Application d'allumage de la lumière.</h1>
+        <h1>Application</h1>
         <div class="row bureau">
             <div class="col-sm-12">
                 <button ng-click="allumer()" class="btn btn-default">Allumer</button>
                 <button ng-click="eteindre()" class="btn btn-default">Eteindre</button>
-
-                <!-- Use element -->
-                <gpio-broche></gpio-broche>
-
+                <!-- Broche du GPIO -->
+                <!--<gpio-broche></gpio-broche>-->
+                <!-- Broche du GPIO -->
+                <gpio-led></gpio-led>
             </div>
         </div>
     </div>
