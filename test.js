@@ -14,3 +14,22 @@ body = JSON.parse(body);
 var etat = body.etat;
 console.log("etat: " + etat);
 //debugger;
+
+// Chargement du module de gestion du système de fichier
+var fs = require('fs');
+var Hexastore = require('Hexastore');
+var db = new Hexastore();
+db.importZip("bd-mesure");
+var temperatures = db.search([
+        [["id"], "valeur", ["mesure"]],
+        [["id"], "date", ["date"]]
+    ]);
+console.log("Les des mesures : ");
+console.log("*********************");
+for (var i = 0; i < temperatures.length; i++) {
+    var temperature = temperatures[i];
+    var date = new Date(temperature.date);
+    //debugger;
+    console.log("Le " + date.toDateString() + " mesure: " + temperature.mesure);
+}
+console.log("---------------------");

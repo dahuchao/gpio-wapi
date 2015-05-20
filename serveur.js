@@ -7,6 +7,9 @@ var multer = require('multer');
 var fs = require('fs');
 // Chargement du module de gestion du port GPIO 
 var gpio = require('rpi-gpio');
+var uuid = require('node-uuid');
+var Hexastore = require('Hexastore');
+var mydb = new Hexastore();
 
 // Création de l'application express
 var app = express();
@@ -35,10 +38,49 @@ function nettoyer(saleBody) {
     return body;
 }
 
+app.get('/gpio/temperatures', function (req, rep) {
+    var db = new Hexastore();
+    db.importZip("bd-mesure");
+    var temperatures = db.search([
+        [["id"], "valeur", ["mesure"]],
+        [["id"], "date", ["date"]]
+    ]);
+    console.log("Les des mesures : ");
+    console.log("*********************");
+    for (var i = 0; i < temperatures.length; i++) {
+        var temperature = temperatures[i];
+        //debugger;
+        console.log("Le " + temperature.date + " mesure: " + temperature.mesure);
+    }
+    console.log("---------------------");
+    rep.send(temperatures);
+});
+
+app.post('/gpio/temperature', function (req, rep) {
+    var db = new Hexastore();
+    db.importZip("bd-mesure");
+    var id = uuid.v1();
+    var maintenant = new Date()
+    db.put([id, "date", maintenant]);
+    temperature = Math.floor((Math.random() * 50) + 1);
+    db.put([id, "valeur", temperature]);
+    db.exportZip("bd-mesure");
+    console.log("Ajout de la mesure: " + temperature);
+    rep.send(temperature);
+});
+
 app.put('/gpio/led', function (req, rep) {
     //format de req.body { '{"etat":true}': ''} objet Json mal formatté par Polymer
     body = nettoyer(req.body);
     var etat = body.etat;
+    var db = new Hexastore();
+    db.importZip("bd-mesure");
+    var id = uuid.v1();
+    var maintenant = new Date()
+    db.put([id, "date", maintenant]);
+    temperature = Math.floor((Math.random() * 50) + 1);
+    db.put([id, "valeur", temperature]);
+    db.exportZip("bd-mesure");
     console.log("Modification de l'état de la led: " + etat);
 });
 
