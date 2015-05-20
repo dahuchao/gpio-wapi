@@ -12,26 +12,66 @@
     <!-- Polymer -->
     <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
     <!-- Import element -->
+    <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="bower_components/font-roboto/roboto.html">
+    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
     <link rel="import" href="gpio-broche.html">
     <link rel="import" href="gpio-led.html">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background-color: #E5E5E5;
+            font-family: 'RobotoDraft', sans-serif;
+        }
+        core-header-panel {
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        core-toolbar {
+            background: #03a9f4;
+            color: white;
+        }
+        #tabs {
+            width: 100%;
+            margin: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Application</h1>
-        <div class="row bureau">
-            <div class="col-sm-12">
-                <button ng-click="allumer()" class="btn btn-default">Allumer</button>
-                <button ng-click="eteindre()" class="btn btn-default">Eteindre</button>
-                <!-- Broche du GPIO -->
-                <!--<gpio-broche></gpio-broche>-->
-                <!-- Broche du GPIO -->
-                <gpio-led></gpio-led>
-            </div>
+    <core-header-panel>
+        <core-toolbar>
+            <paper-tabs id="tabs" selected="all" self-end>
+                <paper-tab name="all">All</paper-tab>
+                <paper-tab name="favorites">Favorites</paper-tab>
+            </paper-tabs>
+        </core-toolbar>
+        <div class="container" layout vertical center>
+            <button ng-click="allumer()" class="btn btn-default">Allumer</button>
+            <button ng-click="eteindre()" class="btn btn-default">Eteindre</button>
+            <!-- Broche du GPIO -->
+            <!--<gpio-broche></gpio-broche>-->
+            <!-- Broche du GPIO -->
+            <gpio-led></gpio-led>
         </div>
-    </div>
+    </core-header-panel>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        var tabs = document.querySelector('paper-tabs');
+        tabs.addEventListener('core-select', function () {
+            console.log("Selected: " + tabs.selected);
+        });
+    </script>
 </body>
 
 </html>
