@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="dcAlum">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +14,6 @@
     <!-- Import element -->
     <link rel="import" href="gpio-broche.html">
 </head>
-
 <body ng-controller="dcAlumController">
     <div class="container">
         <h1>Application d'allumage de la lumière.</h1>
@@ -23,16 +21,12 @@
             <div class="col-sm-12">
                 <button ng-click="allumer()" class="btn btn-default">Allumer</button>
                 <button ng-click="eteindre()" class="btn btn-default">Eteindre</button>
-
                 <!-- Use element -->
                 <gpio-broche></gpio-broche>
 
             </div>
         </div>
     </div>
-
-
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -40,5 +34,4 @@
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
     <script src="dc-alum.js"></script>
 </body>
-
 </html>
