@@ -3,7 +3,7 @@ var fs = require('fs');
 var Hexastore = require('Hexastore');
 require('datejs');
 
-var dateReference = (3).minutes().ago();
+var dateReference = (3).hour().ago();
 var db = new Hexastore();
 db.importZip("bd-mesure");
 var temperatures = db.search([
@@ -17,7 +17,7 @@ var temperatures = db.search([
     if (comparaison < 0) {
         dateFiltrée = false
     }
-    return dateFiltrée;
+    return true;
 });
 var dbRes = new Hexastore();
 console.log("Les des mesures avant : " + dateReference);
