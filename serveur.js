@@ -9,7 +9,10 @@ var fs = require('fs');
 var gpio = require('rpi-gpio');
 var uuid = require('node-uuid');
 var Hexastore = require('Hexastore');
-
+var ds18b20 = require('ds18b20');
+ds18b20.sensors(function (err, ids) {
+    // got sensor IDs ...
+});
 // Création de l'application express
 var app = express();
 app.use(bodyParser.json());
@@ -145,16 +148,17 @@ var serveur = app.listen(3000, function () {
 //**********************************************
 // Traitement périodique de température
 function capturerTemperature() {
-    var db = new Hexastore();
-    db.importZip("bd-mesure");
-    var id = uuid.v1();
-    var maintenant = new Date()
-    db.put([id, "date", maintenant]);
-    temperature = Math.floor((Math.random() * 50) + 1);
-    db.put([id, "valeur", temperature]);
-    db.exportZip("bd-mesure");
-    console.log('Temperature courante %d', temperature);
-}
-// Nouvelle mesure toutes les secondes
-setInterval(capturerTemperature, 10000);
-
+        var db = new Hexastore();
+        db.importZip("bd-mesure");
+        ds18b20.temperature('28-000006375d98', function (err, temperature) {
+            console.log('Temperature courante %d', temperature);
+            var id = uuid.v1();
+            var maintenant = new Date()
+            db.put([id, "date", maintenant]);
+            //temperature = Math.floor((Math.random() * 50) + 1);
+            db.put([id, "valeur", temperature]);
+        });
+        db.exportZip("bd-mesure");
+    }
+    // Nouvelle mesure toutes les secondes
+setInterval(capturerTemperature, 60000);
