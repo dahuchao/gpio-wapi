@@ -9,7 +9,6 @@ var fs = require('fs');
 var gpio = require('rpi-gpio');
 var uuid = require('node-uuid');
 var Hexastore = require('Hexastore');
-var mydb = new Hexastore();
 
 // Création de l'application express
 var app = express();
@@ -142,3 +141,20 @@ app.get('/eteindre', function (req, res) {
 var serveur = app.listen(3000, function () {
     console.log('Ecoute sur le port %d', serveur.address().port);
 });
+
+//**********************************************
+// Traitement périodique de température
+function capturerTemperature() {
+    var db = new Hexastore();
+    db.importZip("bd-mesure");
+    var id = uuid.v1();
+    var maintenant = new Date()
+    db.put([id, "date", maintenant]);
+    temperature = Math.floor((Math.random() * 50) + 1);
+    db.put([id, "valeur", temperature]);
+    db.exportZip("bd-mesure");
+    console.log('Temperature courante %d', temperature);
+}
+// Nouvelle mesure toutes les secondes
+setInterval(capturerTemperature, 10000);
+

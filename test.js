@@ -1,35 +1,33 @@
-//var exemple = "{ '{\"etat\":true}': ''}";
-var req = "{ '{\"etat\":true}': ''}";
-console.log("req: " + req);
-//var reg = /{ '({.*})': ''}/g;
-var reg = new RegExp("{ '({.*})': ''}", 'g');
-//if (!reg.test(req)) throw err;
-var res = reg.exec(req);
-console.log("res: " + res);
-//var res = res.match(reg);
-//console.log("res: " + res);
-var body = res[1];
-console.log("body: " + body);
-body = JSON.parse(body);
-var etat = body.etat;
-console.log("etat: " + etat);
-//debugger;
-
 // Chargement du module de gestion du système de fichier
 var fs = require('fs');
 var Hexastore = require('Hexastore');
+require('datejs');
+
+var dateReference = (3).minutes().ago();
 var db = new Hexastore();
 db.importZip("bd-mesure");
 var temperatures = db.search([
         [["id"], "valeur", ["mesure"]],
         [["id"], "date", ["date"]]
-    ]);
-console.log("Les des mesures : ");
+    ]).filter(function (match) {
+    var dateCourante = new Date(match.date);
+    //console.log("match date : " + dateCourante);
+    var comparaison = Date.compare(dateCourante, dateReference);
+    var dateFiltrée = true;
+    if (comparaison < 0) {
+        dateFiltrée = false
+    }
+    return dateFiltrée;
+});
+var dbRes = new Hexastore();
+console.log("Les des mesures avant : " + dateReference);
 console.log("*********************");
 for (var i = 0; i < temperatures.length; i++) {
     var temperature = temperatures[i];
+    dbRes.put([temperature.id, "date", temperature.date]);
+    dbRes.put([temperature.id, "valeur", temperature.mesure]);
     var date = new Date(temperature.date);
-    //debugger;
-    console.log("Le " + date.toDateString() + " mesure: " + temperature.mesure);
+    console.log("- Mesure : " + temperature.id + " le " + date.toString('d-MMM-yyyy/HH:mm') + " valeur: " + temperature.mesure);
 }
+dbRes.exportZip("bd-mesure");
 console.log("---------------------");

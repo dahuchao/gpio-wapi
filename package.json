@@ -5,6 +5,8 @@
   "author": "dahu-chao",
   "dependencies": {
     "body-parser": "^1.12.4",
+    "datejs": "^1.0.0-rc3",
+    "ds18b20": "0.0.2",
     "express": "3.x",
     "hexastore": "^0.1.4",
     "lodash": "^3.9.1",
