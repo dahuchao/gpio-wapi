@@ -20,7 +20,7 @@
                 width: 70em;
             }
         </style>
-        <core-ajax url='http://localhost:3000/gpio/temperatures' method='GET' handleAs='json' response='{{ temperaturesPassees }}' on-core-response='{{receptionTemperatures}}' auto></core-ajax>
+        <core-ajax url='http://192.168.1.11:3000/gpio/temperatures' method='GET' handleAs='json' response='{{ temperaturesPassees }}' on-core-response='{{receptionTemperatures}}' auto></core-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -31,20 +31,14 @@
             created: function () {
                 console.info('Initialisation.');
                 this.donnees = new Array();
-                /*
-                                this.donnees.push(["Jan", 31]);
-                                this.donnees.push(["Feb", 28]);
-                                this.donnees.push(["Mar", 31]);
-                                this.donnees.push(["Avr", 33]);
-                */
             },
             ready: function () {
                 var that = this;
-                var socket = io.connect('http://localhost:3000');
+                var socket = io.connect('http://192.168.1.11:3000');
                 socket.on('message', function (message) {
                     console.info('Le serveur a un message pour vous : ' + message);
                 });
-                socket.on('mesure', function (temperature) {
+                socket.on('temperature', function (temperature) {
                     console.info('Nouvelle mesure : ' + temperature);
                     var floatMesure = parseFloat(temperature.valeur);
                     that.donnees.push([temperature.date, floatMesure]);
@@ -52,7 +46,7 @@
                 });
             },
             receptionTemperatures: function () {
-                console.info('Reception des temperature passées : ');
+                console.info('Reception des temperature passées.');
                 // Pour chaque mesure de température
                 for (var i = 0; i < this.temperaturesPassees.length; i++) {
                     var temperature = this.temperaturesPassees[i];

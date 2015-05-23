@@ -58,26 +58,26 @@ var serveur = app.listen(3000, function () {
 // Chargement de socket.io
 var io = require('socket.io').listen(serveur);
 // Socket de composant web graphique des températures
-var socketGraphique;
+var socketAbonnes = new Array();
 // Quand on client se connecte, on le note dans la console
 io.sockets.on('connection', function (socket) {
     socket.emit('message', 'Vous êtes bien connecté !');
-    socketGraphique = socket;
-    console.log('Un client est connecté !');
+    socketAbonnes.push(socket);
+    console.log('Un nouvel abonné s est abonné à la publication des mesures !');
 });
 // Méthode de capture d'une mesure sur la sonde de température
 function capturerTemperature() {
     // Prise d'une mesure sur la sonde de température
-    ds18b20.temperature('28-000006375d98', function (err, temperature) {
+    ds18b20.temperature('28-000006375d98', function (err, mesure) {
         // Si une erreur s'est produite
         if (err) {
             // Simulation d'une mesure par un calcul aléatoire
-            temperature = Math.floor((Math.random() * 50) + 1);
+            mesure = Math.floor((Math.random() * 50) + 1);
             // Journalisation de la mesure
-            console.log('Temperature simulée %d', temperature);
+            console.log('Temperature simulée %d', mesure);
         } else {
             // Journalisation de la mesure
-            console.log('Temperature courante %d', temperature);
+            console.log('Temperature courante %d', mesure);
         }
         // Génération d'un identifiant pour la nouvelle mesure
         var id = uuid.v1();
@@ -85,12 +85,14 @@ function capturerTemperature() {
         var maintenant = new Date();
         var date = new Date(maintenant);
         var strDate = date.toString('d-MM-yyyy/HH:mm');
+        var temperature = new Object();
         temperature.date = strDate;
-        var mesure = new Object();
-        mesure.date = strDate;
-        mesure.valeur = temperature;
+        temperature.valeur = mesure;
         // Emission d'un message en direction du graphique historique des mesures
-        socketGraphique.emit('mesure', mesure);
+        for (i = 0; i < socketAbonnes.length; i++) {
+            var socket = socketAbonnes[i];
+            socket.emit('temperature', temperature);
+        }
     });
 };
 // Ordonnanceur des prises de température
