@@ -20,7 +20,14 @@
         </div>
     </template>
     <script>
-        Polymer({
+        Polymer({ // See below for lifecycle callbacks
+            ready: function () {
+                var socket = io.connect('http://localhost:3080');
+                socket.on('message', function (message) {
+                    console.info('Le serveur a un message pour vous : ' + message);
+                    alert('Le serveur a un message pour vous : ' + message);
+                });
+            },
             allumer: function () {
                 console.info('Allumer');
                 this.etat = true;

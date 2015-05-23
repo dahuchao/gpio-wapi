@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +15,12 @@
     <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
     <link rel="import" href="bower_components/font-roboto/roboto.html">
     <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/google-chart/google-chart.html">
     <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+    <link rel="import" href="bower_components/core-pages/core-pages.html">
     <link rel="import" href="gpio-broche.html">
     <link rel="import" href="gpio-led.html">
+    <link rel="import" href="gpio-sonde-temperature.html">
     <style>
         html,
         body {
@@ -25,15 +29,18 @@
             background-color: #E5E5E5;
             font-family: 'RobotoDraft', sans-serif;
         }
+        
         core-header-panel {
             height: 100%;
             overflow: auto;
             -webkit-overflow-scrolling: touch;
         }
+        
         core-toolbar {
             background: #03a9f4;
             color: white;
         }
+        
         #tabs {
             width: 100%;
             margin: 0;
@@ -49,17 +56,22 @@
 <body>
     <core-header-panel>
         <core-toolbar>
-            <paper-tabs id="tabs" selected="all" self-end>
-                <paper-tab name="all">All</paper-tab>
-                <paper-tab name="favorites">Favorites</paper-tab>
+            <paper-tabs id="tabs" self-end>
+                <paper-tab>Temperature</paper-tab>
+                <paper-tab>Lumière</paper-tab>
             </paper-tabs>
         </core-toolbar>
-        <div class="container" layout vertical center>
-            <!-- Broche du GPIO -->
-            <!--<gpio-broche></gpio-broche>-->
-            <!-- Broche du GPIO -->
-            <gpio-led></gpio-led>
-        </div>
+        <core-pages>
+            <div>
+                <gpio-sonde-temperature></gpio-sonde-temperature>
+            </div>
+            <div>
+                <!-- Broche du GPIO -->
+                <!--<gpio-broche></gpio-broche>-->
+                <!-- Broche du GPIO -->
+                <gpio-led></gpio-led>
+            </div>
+        </core-pages>
     </core-header-panel>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

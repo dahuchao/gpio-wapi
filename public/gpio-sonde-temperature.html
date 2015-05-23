@@ -1,0 +1,66 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
+<polymer-element name="gpio-sonde-temperature">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                background-color: white;
+                padding: 20px;
+                width: 100%;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
+            
+            google-chart {
+                height: 300px;
+                width: 70em;
+            }
+        </style>
+        <core-ajax url='http://localhost:3000/gpio/temperatures' method='GET' handleAs='json' response='{{ temperaturesPassees }}' on-core-response='{{receptionTemperatures}}' auto></core-ajax>
+        <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
+        </google-chart>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    </template>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        Polymer({
+            created: function () {
+                console.info('Initialisation.');
+                this.donnees = new Array();
+                /*
+                                this.donnees.push(["Jan", 31]);
+                                this.donnees.push(["Feb", 28]);
+                                this.donnees.push(["Mar", 31]);
+                                this.donnees.push(["Avr", 33]);
+                */
+            },
+            ready: function () {
+                var that = this;
+                var socket = io.connect('http://localhost:3000');
+                socket.on('message', function (message) {
+                    console.info('Le serveur a un message pour vous : ' + message);
+                });
+                socket.on('mesure', function (temperature) {
+                    console.info('Nouvelle mesure : ' + temperature);
+                    var floatMesure = parseFloat(temperature.valeur);
+                    that.donnees.push([temperature.date, floatMesure]);
+                    //that.donnees.push(["Mai", mesure]);
+                });
+            },
+            receptionTemperatures: function () {
+                console.info('Reception des temperature passées : ');
+                // Pour chaque mesure de température
+                for (var i = 0; i < this.temperaturesPassees.length; i++) {
+                    var temperature = this.temperaturesPassees[i];
+                    var floatMesure = parseFloat(temperature.mesure);
+                    this.donnees.push([temperature.date, floatMesure]);
+                    console.info('Reception des temperature passées : %s/%s(%s)', temperature.date, temperature.mesure, typeof temperature.mesure);
+                }
+            }
+        });
+    </script>
+</polymer-element>

@@ -4,6 +4,17 @@
 <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
 <polymer-element name="gpio-led">
     <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                background-color: white;
+                padding: 20px;
+                width: 100%;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
+        </style>
         <div class="container">
             <div class="row bureau">
                 <div class="col-sm-12">
@@ -19,6 +30,7 @@
         </div>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     </template>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         Polymer({
             allumage: function () {
