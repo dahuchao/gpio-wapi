@@ -1,6 +1,6 @@
 // Chargement du module de gestion du système de fichier
 var fs = require('fs');
-var Hexastore = require('Hexastore');
+var Hexastore = require('hexastore');
 require('datejs');
 
 var db = new Hexastore();
