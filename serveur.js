@@ -61,7 +61,7 @@ app.get('/gpio/temperatures', function (req, rep) {
         [["id"], "valeur", ["valeur"]],
         [["id"], "date", ["date"]]
     ]);
-    console.log("Les mesures (%s) : ", temperature.length);
+    console.log("Les mesures (%s) : ", temperatures.length);
     console.log("*********************");
     for (var i = 0; i < temperatures.length; i++) {
         if (i > 20) break;
