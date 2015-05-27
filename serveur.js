@@ -184,12 +184,12 @@ function capturerTemperature() {
         // Si une erreur s'est produite
         if (err) {
             // Simulation d'une mesure par un calcul aléatoire
-            mesure = Math.floor((Math.random() * 50) + 1);
+            temperature = Math.floor((Math.random() * 50) + 1);
             // Journalisation de la mesure
-            console.log('Temperature simulée %d', mesure);
+            console.log('Temperature simulée %d', temperature);
         } else {
             // Journalisation de la mesure
-            console.log('Temperature courante %d', mesure);
+            console.log('Temperature courante %d', temperature);
         }
         // Génération d'un identifiant pour la nouvelle mesure
         var id = uuid.v1();
@@ -197,13 +197,13 @@ function capturerTemperature() {
         var maintenant = new Date();
         var date = new Date(maintenant);
         var strDate = date.toString('d-MM-yyyy/HH:mm');
-        var temperature = new Object();
-        temperature.date = strDate;
-        temperature.valeur = mesure;
+        var mesure = new Object();
+        mesure.date = strDate;
+        mesure.valeur = temperature;
         // Emission d'un message en direction du graphique historique des mesures
         for (i = 0; i < socketAbonnes.length; i++) {
             var socket = socketAbonnes[i];
-            socket.emit('temperature', temperature);
+            socket.emit('temperature', mesure);
         }
     });
     // Enregistrement de la base de données des mesures de température
