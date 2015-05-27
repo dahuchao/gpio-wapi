@@ -9,5 +9,5 @@ var temperatures = db.search([
         [["id"], "valeur", ["mesure"]],
         [["id"], "date", ["date"]]
     ]);
-dbRes.exportZip("bd-mesure");
+db.exportZip("bd-mesure");
 console.log("---------------------");
