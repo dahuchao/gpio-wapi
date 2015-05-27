@@ -61,7 +61,7 @@ app.get('/gpio/temperatures', function (req, rep) {
         [["id"], "valeur", ["valeur"]],
         [["id"], "date", ["date"]]
     ]);
-    console.log("Les mesures : ");
+    console.log("Les mesures (%s) : ", temperature.length);
     console.log("*********************");
     for (var i = 0; i < temperatures.length; i++) {
         if (i > 20) break;
@@ -79,7 +79,7 @@ app.post('/gpio/temperature', function (req, rep) {
     var db = new Hexastore();
     db.importZip("bd-mesure");
     var id = uuid.v1();
-    var maintenant = new Date()
+    var maintenant = new Date();
     db.put([id, "date", maintenant]);
     temperature = Math.floor((Math.random() * 50) + 1);
     db.put([id, "valeur", temperature]);
@@ -200,6 +200,9 @@ function capturerTemperature() {
         var mesure = new Object();
         mesure.date = strDate;
         mesure.valeur = temperature;
+        // Enregistrement en base
+        db.put([id, "date", maintenant]);
+        db.put([id, "valeur", temperature]);
         // Emission d'un message en direction du graphique historique des mesures
         for (i = 0; i < socketAbonnes.length; i++) {
             var socket = socketAbonnes[i];
