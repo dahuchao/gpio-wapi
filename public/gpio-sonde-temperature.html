@@ -14,6 +14,7 @@
                 font-size: 1.2rem;
                 font-weight: 300;
             }
+            
             google-chart {
                 height: 300px;
                 width: 70em;
@@ -50,7 +51,7 @@
                 // Pour chaque mesure de température
                 for (var i = 0; i < this.temperaturesPassees.length; i++) {
                     var temperature = this.temperaturesPassees[i];
-                    var floatMesure = parseFloat(temperature.mesure);
+                    var floatMesure = parseFloat(temperature.valeur);
                     this.donnees.push([temperature.date, floatMesure]);
                     console.info('Reception des temperature passées : %s/%s(%s)', temperature.date, temperature.mesure, typeof temperature.mesure);
                 }
