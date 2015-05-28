@@ -3,11 +3,11 @@ var fs = require('fs');
 var Hexastore = require('hexastore');
 require('datejs');
 
-var db = new Hexastore();
-db.importZip("bd-mesure");
+var bd = new Hexastore();
+bd.importZip("bd-mesure");
 
 var dateReference = (3).minute().ago();
-var temperatures = db.search([
+var temperatures = bd.search([
         [["id"], "valeur", ["mesure"]],
         [["id"], "date", ["date"]]
     ]).filter(function (match) {
@@ -20,15 +20,15 @@ var temperatures = db.search([
     }
     return dateFiltrée;
 });
-var dbRes = new Hexastore();
+var bdRes = new Hexastore();
 console.log("Les des mesures avant : %s (%s)", dateReference, temperatures.length);
 console.log("*********************");
 for (var i = 0; i < temperatures.length; i++) {
     var temperature = temperatures[i];
-    dbRes.put([temperature.id, "date", temperature.date]);
-    dbRes.put([temperature.id, "valeur", temperature.mesure]);
+    bdRes.put([temperature.id, "date", temperature.date]);
+    bdRes.put([temperature.id, "valeur", temperature.mesure]);
     var date = new Date(temperature.date);
     console.log("- Mesure le %s, valeur: %s.", date.toString('d-MMM-yyyy/HH:mm'), temperature.mesure);
 }
-dbRes.exportZip("bd-mesure");
+bdRes.exportZip("bd-mesure");
 console.log("---------------------");

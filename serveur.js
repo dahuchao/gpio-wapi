@@ -21,8 +21,7 @@ var ds18b20 = require('ds18b20');
 require('datejs');
 // Initialisation du capteur
 ds18b20.sensors(function (err, ids) {
-    console.log("Identifians des capteurs w1 : %s", ids);
-    // got sensor IDs ...
+    console.log("Identifiants des capteurs w1 : %s", ids);
 });
 // Création de l'application express
 var app = express();
@@ -55,9 +54,9 @@ function nettoyer(saleBody) {
 // Méthode de lecture de la liste des températures
 app.get('/gpio/temperatures', function (req, rep) {
     console.log("/gpio/temperatures");
-    var db = new Hexastore();
-    db.importZip("bd-mesure");
-    var temperatures = db.search([
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
+    var temperatures = bd.search([
         [["id"], "valeur", ["valeur"]],
         [["id"], "date", ["date"]]
     ]);
@@ -68,7 +67,7 @@ app.get('/gpio/temperatures', function (req, rep) {
         var temperature = temperatures[i];
         var date = new Date(temperature.date);
         var strDate = date.toString('d-MM-yyyy/HH:mm');
-        temperature.date = strDate;
+        //temperature.date = strDate;
         console.log("Le %s mesure: %s.", temperature.date, temperature.valeur);
     }
     console.log("---------------------");
@@ -76,14 +75,14 @@ app.get('/gpio/temperatures', function (req, rep) {
 });
 // Méthode d'enregistrement d'une nouvelle mesure de température prise sur le serveur
 app.post('/gpio/temperature', function (req, rep) {
-    var db = new Hexastore();
-    db.importZip("bd-mesure");
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var id = uuid.v1();
     var maintenant = new Date();
-    db.put([id, "date", maintenant]);
+    bd.put([id, "date", maintenant]);
     temperature = Math.floor((Math.random() * 50) + 1);
-    db.put([id, "valeur", temperature]);
-    db.exportZip("bd-mesure");
+    bd.put([id, "valeur", temperature]);
+    bd.exportZip("bd-mesure");
     console.log("Ajout de la mesure: " + temperature);
     rep.send(temperature);
 });
@@ -92,14 +91,14 @@ app.put('/gpio/led', function (req, rep) {
     //format de req.body { '{"etat":true}': ''} objet Json mal formatté par Polymer
     body = nettoyer(req.body);
     var etat = body.etat;
-    var db = new Hexastore();
-    db.importZip("bd-mesure");
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var id = uuid.v1();
     var maintenant = new Date()
-    db.put([id, "date", maintenant]);
+    bd.put([id, "date", maintenant]);
     temperature = Math.floor((Math.random() * 50) + 1);
-    db.put([id, "valeur", temperature]);
-    db.exportZip("bd-mesure");
+    bd.put([id, "valeur", temperature]);
+    bd.exportZip("bd-mesure");
     console.log("Modification de l'état de la led: " + etat);
 });
 // Méthode de changement de l'état d'une broche du GPIO du serveur RASPBERRY
@@ -175,10 +174,6 @@ io.sockets.on('connection', function (socket) {
 });
 // Méthode de capture d'une mesure sur la sonde de température
 function capturerTemperature() {
-    // Création d'une base de données
-    var db = new Hexastore();
-    // Intialisation de la base de données
-    db.importZip("bd-mesure");
     // Prise d'une mesure sur la sonde de température
     ds18b20.temperature('28-000006375d98', function (err, temperature) {
         // Si une erreur s'est produite
@@ -200,17 +195,21 @@ function capturerTemperature() {
         var mesure = new Object();
         mesure.date = strDate;
         mesure.valeur = temperature;
+        // Création d'une base de données
+        var bd = new Hexastore();
+        // Intialisation de la base de données
+        bd.importZip("bd-mesure");
         // Enregistrement en base
-        db.put([id, "date", maintenant]);
-        db.put([id, "valeur", temperature]);
+        bd.put([id, "date", maintenant]);
+        bd.put([id, "valeur", temperature]);
+        // Enregistrement de la base de données des mesures de température
+        bd.exportZip("bd-mesure");
         // Emission d'un message en direction du graphique historique des mesures
         for (i = 0; i < socketAbonnes.length; i++) {
             var socket = socketAbonnes[i];
             socket.emit('temperature', mesure);
         }
     });
-    // Enregistrement de la base de données des mesures de température
-    db.exportZip("bd-mesure");
 };
 // Ordonnanceur des prises de température
 setInterval(capturerTemperature, 10000);
