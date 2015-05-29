@@ -72,7 +72,6 @@ function nettoyage() {
  */
 function initialisation() {
     var bd = new Hexastore();
-    bd.importZip("bd-mesure");
     var id = uuid.v1();
     var maintenant = new Date()
     bd.put([id, "date", maintenant]);
