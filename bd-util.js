@@ -11,15 +11,23 @@ bd.importZip("bd-mesure");
 
 console.log("*********************");
 
-// print process.argv
+// Calcul de la commande utilisateur
 var commande = process.argv[2];
+// Journalisation de la commande
 console.log('commande: ' + commande);
+// Aiguillage de la commande vers sa fonction
 switch (commande) {
+case '--init':
+    initialisation();
+    break;
 case '--lecture':
     lecture();
     break;
 case '--creation':
     creation();
+    break;
+case '--nettoyage':
+    nettoyage();
     break;
 case '--purge':
     purge();
@@ -28,16 +36,59 @@ default:
     lecture();
 }
 /*
-* Fonction de purge de la base de données
-*/
+ * Fonction d'initialisation de la base de données
+ */
+function nettoyage() {
+    var dateReference = (3).minute().ago();
+    var temperatures = bd.search([
+        [["id"], "valeur", ["mesure"]],
+        [["id"], "date", ["date"]]
+    ]).filter(function (match) {
+        var dateCourante = new Date(match.date);
+        //console.log("match date : " + dateCourante);
+        var comparaison = Date.compare(dateCourante, dateReference);
+        var dateFiltrée = true;
+        if (comparaison < 0) {
+            dateFiltrée = false
+        }
+        return dateFiltrée;
+    });
+    var bdRes = new Hexastore();
+    console.log("Les des mesures avant : %s (%s)", dateReference, temperatures.length);
+    console.log("*********************");
+    for (var i = 0; i < temperatures.length; i++) {
+        var temperature = temperatures[i];
+        bdRes.put([temperature.id, "date", temperature.date]);
+        bdRes.put([temperature.id, "valeur", temperature.mesure]);
+        var date = new Date(temperature.date);
+        console.log("- Mesure le %s, valeur: %s.", date.toString('d-MMM-yyyy/HH:mm'), temperature.mesure);
+    }
+    bdRes.exportZip("bd-mesure");
+    console.log("---------------------");
+}
+/*
+ * Fonction d'initialisation de la base de données
+ */
+function initialisation() {
+    var bd = new Hexastore();
+    var id = uuid.v1();
+    var maintenant = new Date()
+    bd.put([id, "date", maintenant]);
+    temperature = Math.floor((Math.random() * 50) + 1);
+    bd.put([id, "valeur", temperature]);
+    bd.exportZip("bd-mesure");
+}
+/*
+ * Fonction de purge de la base de données
+ */
 function purge() {
     bd.clear();
     bd.exportZip("bd-mesure");
 }
 
 /*
-* Fonction de lecture de la base de données
-*/
+ * Fonction de lecture de la base de données
+ */
 function lecture() {
     var temperatures = bd.search([
         [["id"], "valeur", ["mesure"]],
@@ -55,8 +106,8 @@ function lecture() {
 }
 
 /*
-* Fonction de création d'une mesure dans la base de données
-*/
+ * Fonction de création d'une mesure dans la base de données
+ */
 function creation() {
     var mesure = new Object();
     var temperature = Math.floor((Math.random() * 50) + 1);
