@@ -10,11 +10,11 @@ Ce service est une application de l'API rpi-gpio : https://www.npmjs.com/package
 
 Ce service est une application du web sémantique des données. Les données échangées respectent le format RDF, la syntaxe json-ld (W3C) et hydra (W3C) et définit un vocabulaire pour la description de l'état d'une port GPIO sur RASPBERRY.
 
-Ce service est une application Polymer (ou plutot sera).
+Ce service est une application de Web component Polymer.
 
 ### Exemples
 
-Lire l'état de la broche (pin) 7 du port GPIO.
+#### Lire l'état de la broche (pin) 7 du port GPIO.
 
 Requête : 
 
@@ -38,13 +38,19 @@ La requête renvoie l'état de la broche (pin) 7 du port GPIO.
 
 Exemple d'intégration dans une page web.
 
-    <gpio-broche>7</gpio-broche>
-    
     <!-- Import element -->
     <link rel="import" href="gpio-broche.html">
     
     <!-- Use element -->
     <gpio-broche pin="7"></gpio-broche>
+
+#### Consulter le graphique historique de la sonde de température
+
+    <!-- Import element -->
+    <link rel="import" href="gpio-sonde-temperature.html">
+    
+    <!-- Use element -->
+    <gpio-sonde-temperature></gpio-sonde-temperature>
 
 Documentation
 -------------
@@ -72,8 +78,7 @@ Dans le répertoire public de l'application lancer la commande de résolution de
 
 Lancer le serveur : 
 > sudo node serveur.js
+< Ouvrir l'application dans votre navigateur à l'adresse http://[addresse-ip-pi]:[port-ip-pi]/lumiere
 
-Le serveur est à l'écoute sur le port 3000 à l'adresse de votre RASPBERRY PI.
-
-Ouvrir votre navigateur préféré à l'adresse suivante : http://[addresse-ip-pi]:3000/lumiere
+Le service communique l'adresse de l'application web.
 
