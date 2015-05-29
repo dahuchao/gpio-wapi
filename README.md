@@ -82,4 +82,4 @@ Lancer le serveur :
 
 Le service communique l'adresse de l'application web.
 
-Documentation complète sur le wiki : https://github.com/dahuchao/gpio-wapi/wiki/Accueil
+Documentation complète sur le wiki : https://github.com/dahuchao/gpio-wapi/wiki
