@@ -36,6 +36,7 @@
             ready: function () {
                 var that = this;
                 var socket = io.connect('http://192.168.1.11:3000');
+                // Proposition Aumaury : var socket = io.connect('ws://' + document.location.hostname + ':' + document.location.port);
                 socket.on('message', function (message) {
                     console.info('Le serveur a un message pour vous : ' + message);
                 });
