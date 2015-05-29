@@ -20,7 +20,7 @@
                 width: 70em;
             }
         </style>
-        <core-ajax url='http://192.168.1.11:3000/gpio/temperatures' method='GET' handleAs='json' response='{{ temperaturesPassees }}' on-core-response='{{receptionTemperatures}}' auto></core-ajax>
+        <core-ajax url='gpio/temperatures' method='GET' handleAs='json' response='{{ temperaturesPassees }}' on-core-response='{{receptionTemperatures}}' auto></core-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -35,7 +35,9 @@
             },
             ready: function () {
                 var that = this;
-                var socket = io.connect('http://192.168.1.11:3000');
+                var hostname = document.location.hostname;
+                var port = document.location.port;
+                var socket = io.connect('ws://' + hostname + ':' + port);
                 // Proposition Aumaury : var socket = io.connect('ws://' + document.location.hostname + ':' + document.location.port);
                 socket.on('message', function (message) {
                     console.info('Le serveur a un message pour vous : ' + message);

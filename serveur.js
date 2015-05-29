@@ -2,7 +2,7 @@
 Serveur pour le traitement des mesures sur la sonde de température du RASPBERRY PI.
 **************************************************/
 // Chargement du module d'utilitaire lodash
-var _ = require('lodash');
+//var _ = require('lodash');
 // Chargement du module expressjs
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -42,7 +42,7 @@ if (!fs.existsSync(repertoireSite)) {
     console.error('Répertoire des pages indisponible');
 }
 // Définition de l'URI du site web
-app.use('/lumiere', express.static(repertoireSite));
+app.use('/', express.static(repertoireSite));
 // Méthode de nettoyage du corp des requêtes provenant polymer core-ajax
 function nettoyer(saleBody) {
     //format de req.body { '{"etat":true}': ''}
