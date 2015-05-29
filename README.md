@@ -75,5 +75,5 @@ Lancer le serveur :
 
 Le serveur est à l'écoute sur le port 3000 à l'adresse de votre RASPBERRY PI.
 
-Ouvrir votre navigateur préféré à l'adresse suivante : http://<addresse-ip-pi>:3000/lumiere
+Ouvrir votre navigateur préféré à l'adresse suivante : http://[addresse-ip-pi]:3000/lumiere
 
