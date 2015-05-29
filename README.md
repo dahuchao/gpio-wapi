@@ -58,10 +58,10 @@ L'installation de nodejs est un prérequis.
 L'installation de bower est un prérequis :
 > sudo npm install bower -g
 
-Installer le matériel :-)
+Installer l'application
 > git clone https://github.com/dahuchao/gpio-wapi.git
 
-Dans le répertoire de l'application lancer la commande de résolution des dépendance npm : 
+Dans le répertoire de l'application lancer la commande de résolution des dépendances npm : 
 > npm install
 
 Dans le répertoire public de l'application lancer la commande de résolution des dépendances bower : 
