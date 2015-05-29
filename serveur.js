@@ -157,7 +157,7 @@ app.get('/eteindre', function (req, res) {
 //**********************************************
 // Serveur de l'API Web de la sonde de température
 // Démarrage du serveur http
-var serveur = app.listen(3000, function () {
+var serveur = app.listen(80, function () {
     var host = serveur.address().address;
     var port = serveur.address().port;
     console.log('< Adresse application http://%s:%s', host, port);
