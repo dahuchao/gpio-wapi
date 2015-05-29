@@ -6,9 +6,6 @@ var uuid = require('node-uuid');
 // Chargement du module utilitaire de date
 require('datejs');
 
-var bd = new Hexastore();
-bd.importZip("bd-mesure");
-
 console.log("*********************");
 
 // Calcul de la commande utilisateur
@@ -35,10 +32,13 @@ case '--purge':
 default:
     lecture();
 }
+
 /*
  * Fonction d'initialisation de la base de données
  */
 function nettoyage() {
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var dateReference = (3).minute().ago();
     var temperatures = bd.search([
         [["id"], "valeur", ["mesure"]],
@@ -66,11 +66,13 @@ function nettoyage() {
     bdRes.exportZip("bd-mesure");
     console.log("---------------------");
 }
+
 /*
  * Fonction d'initialisation de la base de données
  */
 function initialisation() {
     var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var id = uuid.v1();
     var maintenant = new Date()
     bd.put([id, "date", maintenant]);
@@ -78,10 +80,13 @@ function initialisation() {
     bd.put([id, "valeur", temperature]);
     bd.exportZip("bd-mesure");
 }
+
 /*
  * Fonction de purge de la base de données
  */
 function purge() {
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     bd.clear();
     bd.exportZip("bd-mesure");
 }
@@ -90,6 +95,8 @@ function purge() {
  * Fonction de lecture de la base de données
  */
 function lecture() {
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var temperatures = bd.search([
         [["id"], "valeur", ["mesure"]],
         [["id"], "date", ["date"]]
@@ -109,6 +116,8 @@ function lecture() {
  * Fonction de création d'une mesure dans la base de données
  */
 function creation() {
+    var bd = new Hexastore();
+    bd.importZip("bd-mesure");
     var mesure = new Object();
     var temperature = Math.floor((Math.random() * 50) + 1);
     // Génération d'un identifiant pour la nouvelle mesure
