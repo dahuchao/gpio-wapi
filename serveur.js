@@ -86,6 +86,55 @@ app.post('/gpio/temperature', function (req, rep) {
     console.log("Ajout de la mesure: " + temperature);
     rep.send(temperature);
 });
+// Méthode de lecture de l'état d'une broche du GPIO du serveur RASPBERRY
+app.get('/gpio/broches/:broche', function (req, rep) {
+    console.log("get/gpio/broches/:broche");
+    var idBroche = req.params.broche;
+    console.logl('Lecture de la broche %s du GPIO.', idBroche);
+    gpio.setup(idBroche, gpio.DIR_IN, function (erreur) {
+        if (erreur) {
+            rep.send(erreur);
+        } else {
+            gpio.read(idBroche, function (erreur, etat) {
+                if (erreur) {
+                    rep.send(erreur);
+                } else {
+                    var broche = {
+                        context: {
+                            gpio: 'http://www/',
+                        },
+                        '@id': 'http://www/gpio/broches/7',
+                        '@type': 'gpio:Etat',
+                        etat: etat
+                    }
+                    rep.send(broche);
+                }
+            });
+        }
+    });
+});
+// Méthode de changement de l'état d'une broche du GPIO du serveur RASPBERRY
+app.put('/gpio/broches/:broche', function (req, rep) {
+    console.log("put/gpio/broches/:broche");
+    var broche = req.params.broche;
+    console.log('Modification de la broche %s:%s', broche, req.body.etat);
+    gpio.setup(broche, gpio.DIR_OUT, function (erreur) {
+        if (erreur) {
+            rep.send(erreur);
+        } else {
+            // Calcul du nouvel état de la broche
+            var etat = req.body.etat;
+            // Changement de l'état de la broche
+            gpio.write(broche, etat, function (erreur) {
+                if (erreur) {
+                    rep.send(erreur);
+                } else {
+                    rep.send('Changement état broche(%s): %s.', broche, etat);
+                }
+            });
+        }
+    });
+});
 // Méthode de changement de l'état de la LED
 app.put('/gpio/led', function (req, rep) {
     //format de req.body { '{"etat":true}': ''} objet Json mal formatté par Polymer
@@ -100,39 +149,6 @@ app.put('/gpio/led', function (req, rep) {
     bd.put([id, "valeur", temperature]);
     bd.exportZip("bd-mesure");
     console.log("Modification de l'état de la led: " + etat);
-});
-// Méthode de changement de l'état d'une broche du GPIO du serveur RASPBERRY
-app.put('/gpio/broches/:broche', function (req, rep) {
-    var broche = req.params.broche;
-    console.log('Modification de la broche ' + broche + ':' + req.body);
-    gpio.setup(broche, gpio.DIR_OUT, function () {
-        // Calcul du nouvel état de la broche
-        var etat = req.body.etat;
-        // Changement de l'état de la broche
-        gpio.write(broche, etat, function (err) {
-            if (err) throw err;
-            rep.send('Allumage de la broche: ' + broche);
-        });
-    });
-});
-// Méthode de lecture de l'état d'une broche du GPIO du serveur RASPBERRY
-app.get('/gpio/broches/:broche', function (req, rep) {
-    var idBroche = req.params.broche;
-    console.log('Lecture de la broche %s du GPIO.', idBroche);
-    gpio.setup(idBroche, gpio.DIR_IN, function () {
-        gpio.read(idBroche, function (err, etat) {
-            if (err) throw err;
-            var broche = {
-                context: {
-                    gpio: 'http://www/',
-                },
-                '@id': 'http://www/gpio/broches/7',
-                '@type': 'gpio:Etat',
-                etat: etat
-            }
-            rep.send(broche);
-        });
-    });
 });
 // Méthode pour allumer la LED du serveur
 app.get('/allumer', function (req, res) {
