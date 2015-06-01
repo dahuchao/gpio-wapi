@@ -22,7 +22,7 @@
         }
     </style>
     <template>
-        <iron-ajax url='gpio/temperatures' method='GET' handle-as='json' last-response='{{temperaturesPassees}}' on-response='receptionTemperatures' auto></iron-ajax>
+        <iron-ajax id='ajaxTemp' url='gpio/temperatures' method='GET' handle-as='json' last-response="{{temperaturesPassees}}" on-response='receptionTemperatures' auto></iron-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
     </template>
@@ -56,6 +56,7 @@
                 });
             },
             receptionTemperatures: function () {
+                var ajaxTemp = document.getElementById('ajaxTemp');
                 console.info('Reception des temperature passées.');
                 // Pour chaque mesure de température
                 for (var i = 0; i < temperaturesPassees.length; i++) {
