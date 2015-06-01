@@ -9,10 +9,16 @@
     <title>Lumière actionneur</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="import" href="bower_components/iron-input/iron-input.html">
+    <link rel="import" href="test-element.html">
 </head>
 
 <body>
-    <p>test connexion par livebox</p>
+    <p>test connexion par livebox : <span>{{texte}}</span>
+    </p>
+    <input is="iron-input" type="text" bind-value="{{texte}}">
+    <test-element></test-element>
 </body>
 
 </html>

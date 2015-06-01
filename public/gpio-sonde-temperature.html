@@ -22,7 +22,7 @@
         }
     </style>
     <template>
-        <iron-ajax id='ajaxTemp' url='gpio/temperatures' method='GET' handle-as='json' last-response="{{temperaturesPassees}}" on-response='receptionTemperatures' auto></iron-ajax>
+        <iron-ajax id='ajaxTemp' method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='arraybuffer' on-response='receptionTemperatures' auto></iron-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
     </template>
@@ -31,8 +31,11 @@
         Polymer({
             is: "gpio-sonde-temperature",
             properties: {
-                donnees: Array,
-                temperaturesPassees: Object
+                donnees: {
+                    type: Array,
+                    value: ["init", 0]
+                },
+                temperaturesPassees: Array
             },
             created: function () {
                 console.info('Initialisation.');
@@ -52,12 +55,13 @@
                     var floatMesure = parseFloat(temperature.valeur);
                     console.info('Nouvelle mesure : ' + floatMesure);
                     donnees.push([temperature.date, floatMesure]);
-                    //that.donnees.push(["Mai", mesure]);
+                    that.donnees.push(["Mai", mesure]);
                 });
             },
             receptionTemperatures: function () {
-                var ajaxTemp = document.getElementById('ajaxTemp');
+                var ajaxTemp = document.querySelector('#ajaxTemp');
                 console.info('Reception des temperature passées.');
+                //var temperaturesPassees = ajaxTemp.lastRequest;
                 // Pour chaque mesure de température
                 for (var i = 0; i < temperaturesPassees.length; i++) {
                     var temperature = temperaturesPassees[i];
