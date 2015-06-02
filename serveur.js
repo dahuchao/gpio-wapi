@@ -114,6 +114,14 @@ app.get('/gpio/broches/:broche', function (req, rep) {
     });
 });
 // Méthode de changement de l'état d'une broche du GPIO du serveur RASPBERRY
+app.get('/gpio/test', function (req, rep) {
+    console.log("put/gpio/test");
+    var ret = new Object();
+    ret.valeur = "valeur test";
+    console.log("Retour : %s", JSON.stringify(ret));
+    rep.send(ret);
+});
+// Méthode de changement de l'état d'une broche du GPIO du serveur RASPBERRY
 app.put('/gpio/broches/:broche', function (req, rep) {
     console.log("put/gpio/broches/:broche");
     var broche = req.params.broche;

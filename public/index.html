@@ -35,6 +35,7 @@
     <link rel="import" href="bower_components/paper-item/paper-item.html">
     <link rel="import" href="bower_components/iron-selector/iron-selector.html">
     <link rel="import" href="bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="bower_components/google-chart/google-chart.html">
     <link rel="import" href="bower_components/paper-toast/paper-toast.html">
     <!-- Configure your routes here -->
     <link rel="import" href="app-theme.html">
@@ -80,7 +81,7 @@
                     <paper-icon-button icon="search"></paper-icon-button>
                     <div class="middle"></div>
                     <!-- Application name -->
-                    <div class="appname bottom paper-font-display2">Portail de l'objet connecté</div>
+                    <div class="appname bottom paper-font-display2">Portail des sondes PI</div>
                 </paper-toolbar>
                 <!-- Main Content -->
                 <iron-pages attr-for-selected="data-route" selected="{{route}}">
@@ -89,12 +90,15 @@
                             <h1 class="paper-font-display1 style-scope">Bienvenu</h1>
                             <p class="paper-font-body2">Voici mes objets connecté.
                             </p>
+                            <google-chart type='pie' options='{"title": "Distribution of days in 2001Q1"}' cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]' rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
+                            </google-chart>
                         </paper-material>
                     </section>
                     <section data-route="temperature">
                         <paper-material elevation="1">
                             <p class="paper-font-subhead">Sonde de température now have:</p>
-                            <gpio-sonde-temperature></gpio-sonde-temperature>
+
+<!--                            <gpio-sonde-temperature></gpio-sonde-temperature>-->
                         </paper-material>
                     </section>
                     <section data-route="lumiere">

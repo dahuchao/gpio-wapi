@@ -15,14 +15,13 @@
             font-size: 1.2rem;
             font-weight: 300;
         }
-        
         google-chart {
             height: 300px;
             width: 70em;
         }
     </style>
     <template>
-        <iron-ajax id='ajaxTemp' method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='arraybuffer' on-response='receptionTemperatures' auto></iron-ajax>
+        <iron-ajax id='ajaxTemp' method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='arraybuffer' auto></iron-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
     </template>
@@ -35,7 +34,10 @@
                     type: Array,
                     value: ["init", 0]
                 },
-                temperaturesPassees: Array
+                temperaturesPassees: {
+                    type: Array,
+                    obsever: 'receptionTemperatures'
+                }
             },
             created: function () {
                 console.info('Initialisation.');
@@ -59,11 +61,11 @@
                 });
             },
             receptionTemperatures: function () {
-                var ajaxTemp = document.querySelector('#ajaxTemp');
+                //var ajaxTemp = document.querySelector('#ajaxTemp');
                 console.info('Reception des temperature passées.');
                 //var temperaturesPassees = ajaxTemp.lastRequest;
                 // Pour chaque mesure de température
-                for (var i = 0; i < temperaturesPassees.length; i++) {
+                for (var i = 0; i < this.temperaturesPassees.length; i++) {
                     var temperature = temperaturesPassees[i];
                     var floatMesure = parseFloat(temperature.valeur);
                     this.donnees.push([temperature.date, floatMesure]);

@@ -1,0 +1,51 @@
+<dom-module id="exemple-element">
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="import" href="bower_components/iron-input/iron-input.html">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="bower_components/paper-material/paper-material.html">
+
+    <link rel="import" href="bower_components/google-chart/google-chart.html">
+    <template>
+        <section>
+            <paper-material elevation="1">
+                <p>test connexion par livebox : <span>{{texte}}</span>
+                </p>
+                <input is="iron-input" type="text" bind-value="{{texte}}" />
+                <google-chart type='pie' options='{"title": "Distribution of days in 2001Q1"}' cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]' rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
+                </google-chart>
+
+                <iron-ajax method='GET' url='gpio/temperatures' last-response="{{reponseTest}}" handle-as='json' auto></iron-ajax>
+                <iron-ajax method='GET' url='gpio/test' last-response="{{reponseExemple}}" handle-as='json' auto></iron-ajax>
+            </paper-material>
+        </section>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "exemple-element",
+        properties: {
+            texte: {
+                type: String,
+                value: "Daniel"
+            },
+            don: {
+                type: Array
+            },
+            reponseTest: {
+                type: Array,
+                observer: 'fonctionTest'
+            },
+            reponseExemple: {
+                type: Object,
+                observer: 'fonctionExemple'
+            }
+        },
+        fonctionTest: function (nouvelleValeur, AncienneValeur) {
+            //console.log("Retour : %s", JSON.stringify(nouvelleValeur));
+            this.don = [["Jan", 31], ["Feb", 28], ["Mar", 31]];
+        },
+        fonctionExemple: function () {
+            console.log("Retour : %s", JSON.stringify(this.reponseExemple));
+        }
+    });
+</script>
