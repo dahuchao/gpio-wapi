@@ -3,49 +3,54 @@
     <link rel="import" href="bower_components/iron-input/iron-input.html">
     <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
     <link rel="import" href="bower_components/paper-material/paper-material.html">
-
     <link rel="import" href="bower_components/google-chart/google-chart.html">
+    <style>
+        google-chart {
+            height: 300px;
+            width: 50em;
+        }
+    </style>
     <template>
         <section>
-            <paper-material elevation="1">
-                <p>test connexion par livebox : <span>{{texte}}</span>
-                </p>
-                <input is="iron-input" type="text" bind-value="{{texte}}" />
-                <google-chart type='pie' options='{"title": "Distribution of days in 2001Q1"}' cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]' rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
-                </google-chart>
+            <p>test connexion par livebox : <span>{{texte}}</span>
+            </p>
+            <input is="iron-input" type="text" bind-value="{{texte}}" />
+            <google-chart id="chart2" type='pie' options='{"title": "Distribution of days in 2001Q1"}' cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]' rows='{{don}}'>
+            </google-chart>
 
-                <iron-ajax method='GET' url='gpio/temperatures' last-response="{{reponseTest}}" handle-as='json' auto></iron-ajax>
-                <iron-ajax method='GET' url='gpio/test' last-response="{{reponseExemple}}" handle-as='json' auto></iron-ajax>
-            </paper-material>
+            <iron-ajax method='GET' url='gpio/temperatures' last-response="{{reponseTest}}" handle-as='json' auto></iron-ajax>
+            <iron-ajax method='GET' url='gpio/test' last-response="{{reponseExemple}}" handle-as='json' auto></iron-ajax>
         </section>
     </template>
-</dom-module>
-<script>
-    Polymer({
-        is: "exemple-element",
-        properties: {
-            texte: {
-                type: String,
-                value: "Daniel"
+    <script>
+        Polymer({
+            is: "exemple-element",
+            properties: {
+                texte: {
+                    type: String,
+                    value: "Daniel"
+                },
+                reponseTest: {
+                    type: Array,
+                    observer: 'fonctionTest'
+                },
+                reponseExemple: {
+                    type: Object,
+                    observer: 'fonctionExemple'
+                }
             },
-            don: {
-                type: Array
+            ready: function () {
+                console.log("Ready");
+                this.don = [["Jan", 31], ["Feb", 28], ["Mar", 31]];
             },
-            reponseTest: {
-                type: Array,
-                observer: 'fonctionTest'
+            fonctionTest: function (nouvelleValeur, AncienneValeur) {
+                console.log("Retour : %s", JSON.stringify(this.reponseTest));
+                console.log("Taille tableau : %s", this.reponseTest.length);
+                this.don = [["Jan", 31], ["Feb", 28], ["Mar", 31]];
             },
-            reponseExemple: {
-                type: Object,
-                observer: 'fonctionExemple'
+            fonctionExemple: function () {
+                //console.log("Retour : %s", JSON.stringify(this.reponseExemple));
             }
-        },
-        fonctionTest: function (nouvelleValeur, AncienneValeur) {
-            //console.log("Retour : %s", JSON.stringify(nouvelleValeur));
-            this.don = [["Jan", 31], ["Feb", 28], ["Mar", 31]];
-        },
-        fonctionExemple: function () {
-            console.log("Retour : %s", JSON.stringify(this.reponseExemple));
-        }
-    });
-</script>
+        });
+    </script>
+</dom-module>

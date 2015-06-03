@@ -21,7 +21,7 @@
         }
     </style>
     <template>
-        <iron-ajax id='ajaxTemp' method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='arraybuffer' auto></iron-ajax>
+        <iron-ajax method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='json' auto></iron-ajax>
         <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
         </google-chart>
     </template>
@@ -30,46 +30,41 @@
         Polymer({
             is: "gpio-sonde-temperature",
             properties: {
-                donnees: {
-                    type: Array,
-                    value: ["init", 0]
-                },
                 temperaturesPassees: {
                     type: Array,
-                    obsever: 'receptionTemperatures'
+                    observer: 'receptionTemperatures'
                 }
             },
-            created: function () {
-                console.info('Initialisation.');
-                donnees = new Array();
-                //this.donnees.push(["init", 0]);
-            },
             ready: function () {
-                var that = this;
+                this.donnees = new Array();
+                this.donnees.push(['12 juin', 20]);
+                this.donnees.push(['11 juin', 23]);
+                that = this;
                 var hostname = document.location.hostname;
                 var port = document.location.port;
                 var socket = io.connect('ws://' + hostname + ':' + port);
-                // Proposition Aumaury : var socket = io.connect('ws://' + document.location.hostname + ':' + document.location.port);
                 socket.on('message', function (message) {
                     console.info('Le serveur a un message pour vous : ' + message);
                 });
                 socket.on('temperature', function (temperature) {
                     var floatMesure = parseFloat(temperature.valeur);
                     console.info('Nouvelle mesure : ' + floatMesure);
-                    donnees.push([temperature.date, floatMesure]);
-                    that.donnees.push(["Mai", mesure]);
+                    that.donnees.push([temperature.date, floatMesure]);
+                    that.donnees.push(["Mai", floatMesure]);
                 });
             },
             receptionTemperatures: function () {
-                //var ajaxTemp = document.querySelector('#ajaxTemp');
                 console.info('Reception des temperature passées.');
-                //var temperaturesPassees = ajaxTemp.lastRequest;
+                //console.log("Retour : %s", JSON.stringify(this.temperaturesPassees));
+                console.log("Taille tableau : %s", this.temperaturesPassees.length);
                 // Pour chaque mesure de température
                 for (var i = 0; i < this.temperaturesPassees.length; i++) {
-                    var temperature = temperaturesPassees[i];
+                    var temperature = this.temperaturesPassees[i];
                     var floatMesure = parseFloat(temperature.valeur);
-                    this.donnees.push([temperature.date, floatMesure]);
-                    console.info('Reception des temperature passées : %s/%s(%s)', temperature.date, temperature.mesure, typeof temperature.mesure);
+                    var dateMesure = new Date(temperature.date);
+                    var dateFMesure = dateMesure.getHours() + '/' + dateMesure.getMinutes() + '/' + dateMesure.getSeconds();
+                    this.donnees.push([dateMesure, floatMesure]);
+                    //console.info('Reception des temperature passées : %s - %s', dateFMesure, floatMesure);
                 }
             }
         });

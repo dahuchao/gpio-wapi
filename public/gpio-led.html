@@ -1,25 +1,25 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html" s>
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
-<polymer-element name="gpio-led">
+<dom-module name="gpio-led">
+    <style>
+        :host {
+            display: block;
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            width: 100%;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+    </style>
     <template>
-        <style>
-            :host {
-                display: block;
-                position: relative;
-                background-color: white;
-                padding: 20px;
-                width: 100%;
-                font-size: 1.2rem;
-                font-weight: 300;
-            }
-        </style>
         <div class="container">
             <div class="row bureau">
                 <div class="col-sm-12">
-                    <core-ajax url="http://localhost:3000/gpio/led" method="PUT" body='{"etat":{{allumee}}}' auto>
-                    </core-ajax>
+                    <iron-ajax url="gpio/led" method="PUT" body='{"etat":{{allumee}}}' auto>
+                    </iron-ajax>
                     <!-- shadow DOM here -->
                     <core-label for="etat">
                         Lumière:
@@ -33,6 +33,25 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         Polymer({
+            is: "gpio-led",
+            properties: {
+                pin: {
+                    type: String
+                },
+                etat: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            // See below for lifecycle callbacks
+            ready: function () {
+                var hostname = document.location.hostname;
+                var port = document.location.port;
+                var socket = io.connect('ws://' + hostname + ':' + port);
+                socket.on('message', function (message) {
+                    console.info('Le serveur a un message pour vous : ' + message);
+                });
+            },
             allumage: function () {
                 if (allumee) {
                     console.info('Eteindre');
@@ -44,4 +63,4 @@
             }
         });
     </script>
-</polymer-element>
+</dom-module>

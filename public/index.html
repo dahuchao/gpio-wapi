@@ -42,6 +42,7 @@
     <link rel="import" href="routing.html">
     <!-- endbuild -->
     <link rel="import" href="gpio-broche.html">
+    <link rel="import" href="gpio-led.html">
     <link rel="import" href="gpio-sonde-temperature.html">
 </head>
 
@@ -98,14 +99,15 @@
                         <paper-material elevation="1">
                             <p class="paper-font-subhead">Sonde de température now have:</p>
 
-<!--                            <gpio-sonde-temperature></gpio-sonde-temperature>-->
+                            <gpio-sonde-temperature></gpio-sonde-temperature>
                         </paper-material>
                     </section>
                     <section data-route="lumiere">
                         <paper-material elevation="1">
                             <h2 class="paper-font-display2">Lumiere</h2>
                             <p>Bouton d'allumage de la led</p>
-                            <!--<gpio-broche></gpio-broche>-->
+                            <gpio-broche pin='12'></gpio-broche>
+<!--                            <gpio-led></gpio-led>-->
                         </paper-material>
                     </section>
                 </iron-pages>

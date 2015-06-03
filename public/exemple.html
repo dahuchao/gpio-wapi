@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Lumière actionneur</title>
+    <title>Exemples</title>
     <link rel="stylesheet" href="styles/main.css">
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="import" href="bower_components/polymer/polymer.html">
@@ -20,18 +19,15 @@
     <link rel="import" href="bower_components/google-chart/google-chart.html">
     <link rel="import" href="exemple-element.html">
     <link rel="import" href="app-theme.html">
-
 </head>
 
 <body>
     <section>
         <paper-material elevation="1">
-            <p>test connexion par livebox : <span>{{texte}}</span>
-            </p>
-            <input is="iron-input" type="text" bind-value="{{texte}}">
-            <google-chart type='pie' options='{"title": "Distribution of days in 2001Q1"}' cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]' rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
-            </google-chart>
-            <exemple-element></exemple-element>
+            <!--            <exemple-element></exemple-element>-->
+            <template is="dom-bind">
+                <p>test connexion par livebox : <span>{{texte}}</span>
+            </template>
         </paper-material>
     </section>
 </body>
