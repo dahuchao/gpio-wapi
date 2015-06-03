@@ -1,0 +1,38 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html" s>
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
+<dom-module name="gpio-lampe">
+    <style>
+        paper-fab.lampe {
+            background: #ffc107;
+        }
+    </style>
+    <template>
+        <paper-fab class="{{styleLampe}}"></paper-fab>
+    </template>
+    <script>
+        Polymer({
+            is: "gpio-lampe",
+            properties: {
+                pin: {
+                    type: String
+                },
+                etat: {
+                    type: Boolean,
+                    value: false
+                },
+                styleLampe: 'lampe'
+            },
+            allumage: function () {
+                if (allumee) {
+                    console.info('Eteindre');
+                    this.allumee = false;
+                } else {
+                    console.info('Allumer');
+                    this.allumee = true;
+                }
+            }
+        });
+    </script>
+</dom-module>
