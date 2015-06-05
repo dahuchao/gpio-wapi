@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Exemple 1</title>
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/paper-material/paper-material.html">
+    <link rel="import" href="../app-theme.html">
+    <!-- Composants maison -->
+    <link rel="import" href="gpio-voyant.html">
+</head>
+
+<body>
+    <template is="dom-bind">
+        <paper-material elevation="1">
+            <gpio-voyant etat="eteint"></gpio-voyant>
+        </paper-material>
+    </template>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="gpio-voyant.html">
+<link rel="import" href="gpio-interrupteur.html">
+<dom-module id="rasp-pi">
+    <style>
+        .rampe {
+            /* layout properties for a local DOM element */
+            @apply(--layout-horizontal);
+
+        }
+    </style>
+    <template>
+        <h1 class="paper-font-display1 style-scope">Bienvenu</h1>
+        <p class="paper-font-body2">Voici mes objets connectés.
+        </p>
+        <div class="rampe">
+            <gpio-voyant etat='{{etat}}'></gpio-voyant>
+            <div>
+                <gpio-interrupteur etat='{{etat}}'></gpio-interrupteur>
+            </div>
+        </div>
+        <p>Allumage : <span>{{etat}}</span>
+        </p>
+    </template>
+    <script>
+        Polymer({
+            is: "rasp-pi"
+        });
+    </script>
+</dom-module>

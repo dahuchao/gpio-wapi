@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<dom-module id="gpio-interrupteur">
+    <template>
+        <paper-toggle-button checked="{{ ferme }}"></paper-toggle-button>
+    </template>
+    <script>
+        Polymer({
+            is: "gpio-interrupteur",
+            properties: {
+                pin: {
+                    type: String
+                },
+                etat: {
+                    type: String,
+                    value: 'eteint',
+                    reflectToAttribute: true,
+                    notify: true
+                },
+                ferme: {
+                    type: Boolean,
+                    observer: 'changementAllume'
+                }
+            },
+            changementAllume: function () {
+                if (this.ferme) {
+                    this.etat = 'allume';
+                    console.info('changementAllume/nouvel etat : %s/%s',
+                        this.ferme, this.etat);
+                } else {
+                    this.etat = 'eteint';
+                    console.info('changementAllume/nouvel etat : %s/%s',
+                        this.ferme, this.etat);
+                }
+            }
+        });
+    </script>
+</dom-module>

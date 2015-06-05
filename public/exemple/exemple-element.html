@@ -1,16 +1,31 @@
 <dom-module id="exemple-element">
-    <link rel="import" href="bower_components/polymer/polymer.html">
-    <link rel="import" href="bower_components/iron-input/iron-input.html">
-    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-    <link rel="import" href="bower_components/paper-material/paper-material.html">
-    <link rel="import" href="bower_components/google-chart/google-chart.html">
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../bower_components/paper-material/paper-material.html">
+    <link rel="import" href="../bower_components/google-chart/google-chart.html">
     <style>
+        :host {
+            /* layout properties for the host element */
+            @apply(--layout-vertical);
+
+        }
+        .test {
+            /* layout properties for a local DOM element */
+            @apply(--layout-horizontal);
+
+        }
         google-chart {
             height: 300px;
             width: 50em;
         }
     </style>
     <template>
+        <div class="test">
+            <div>un</div>
+            <div>deux</div>
+            <div>trois</div>
+        </div>
         <section>
             <p>test connexion par livebox : <span>{{texte}}</span>
             </p>

@@ -1,0 +1,40 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html" s>
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<dom-module id="gpio-voyant">
+    <style>
+        .eteint {
+            background: #C0C0C0;
+        }
+        .allume {
+            background: #ffc107;
+        }
+    </style>
+    <template>
+        <paper-fab class$="{{ couleur }}"></paper-fab>
+    </template>
+    <script>
+        Polymer({
+            is: "gpio-voyant",
+            properties: {
+                pin: {
+                    type: String
+                },
+                etat: {
+                    type: String,
+                    value: 'eteint',
+                    observer: 'changementEtat'
+                }
+            },
+            changementEtat: function () {
+                if (this.etat=='allume') {
+                    console.info('Allumer');
+                    this.couleur = 'allume';
+                } else {
+                    console.info('Eteindre');
+                    this.couleur = 'eteint';
+                }
+            }
+        });
+    </script>
+</dom-module>
