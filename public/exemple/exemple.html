@@ -14,13 +14,13 @@
     <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
     <link rel="import" href="../bower_components/google-chart/google-chart.html">
     <link rel="import" href="../app-theme.html">
-    <link rel="import" href="exemple-element.html">
+    <!--<link rel="import" href="exemple-element.html">-->
 </head>
 
 <body>
     <template is="dom-bind">
         <section>
-            <paper-material elevation="1">
+            <paper-material elevation="2">
                 <exemple-element></exemple-element>
             </paper-material>
         </section>
@@ -28,3 +28,91 @@
 </body>
 
 </html>
+
+<dom-module id="exemple-element">
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../bower_components/paper-material/paper-material.html">
+    <link rel="import" href="../bower_components/google-chart/google-chart.html">
+    <style>
+        :host {
+            /* layout properties for the host element */
+            
+            @apply(--layout-vertical);
+        }
+        
+        .test {
+            /* layout properties for a local DOM element */
+            
+            @apply(--layout-horizontal);
+        }
+        
+        google-chart {
+            height: 300px;
+            width: 50em;
+        }
+    </style>
+    <template>
+        <div class="test">
+            <div>un</div>
+            <div>deux</div>
+            <div>trois</div>
+        </div>
+        <section>
+            <google-chart rows='{{donnees}}' type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]'>
+            </google-chart>
+            <iron-ajax method='GET' url='/gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='json' auto></iron-ajax>
+            <iron-ajax method='GET' url='/gpio/test' last-response="{{reponseExemple}}" handle-as='json' auto></iron-ajax>
+        </section>
+    </template>
+    <script>
+        Polymer({
+            is: "exemple-element",
+            properties: {
+                temperaturesPassees: {
+                    type: Array,
+                    observer: 'receptionTemperatures'
+                },
+                texte: {
+                    type: String,
+                    value: "Emmanuel"
+                },
+                reponseTest: {
+                    type: Array,
+                    observer: 'fonctionTest'
+                },
+                reponseExemple: {
+                    type: Object,
+                    observer: 'fonctionExemple'
+                }
+            },
+            ready: function () {
+                console.log("Ready");
+                this.donnees = [["Jan", 0]];
+            },
+            fonctionTest: function (nouvelleValeur, AncienneValeur) {
+                console.log("Retour : %s", JSON.stringify(this.reponseTest));
+                console.log("Taille tableau : %s", this.reponseTest.length);
+                this.don = [["Jan", 31], ["Feb", 28], ["Mar", 31]];
+            },
+            fonctionExemple: function () {
+                //console.log("Retour : %s", JSON.stringify(this.reponseExemple));
+            },
+            receptionTemperatures: function () {
+                console.info('Reception des temperature passées.');
+                //console.log("Retour : %s", JSON.stringify(this.temperaturesPassees));
+                console.log("Taille tableau : %s", this.temperaturesPassees.length);
+                // Pour chaque mesure de température
+                for (var i = 0; i < this.temperaturesPassees.length; i++) {
+                    var temperature = this.temperaturesPassees[i];
+                    var floatMesure = parseFloat(temperature.valeur);
+                    var dateMesure = new Date(temperature.date);
+                    var dateFMesure = dateMesure.getHours() + '/' + dateMesure.getMinutes() + '/' + dateMesure.getSeconds();
+                    this.donnees.push([dateFMesure, floatMesure]);
+                    console.info('Reception des temperature passées : %s - %s', dateFMesure, floatMesure);
+                }
+            }
+        });
+    </script>
+</dom-module>

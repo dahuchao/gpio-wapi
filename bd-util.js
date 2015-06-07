@@ -75,7 +75,7 @@ function initialisation() {
     var id = uuid.v1();
     var maintenant = new Date()
     bd.put([id, "date", maintenant]);
-    temperature = Math.floor((Math.random() * 50) + 1);
+    var temperature = Math.floor((Math.random() * 50) + 1);
     bd.put([id, "valeur", temperature]);
     bd.exportZip("bd-mesure");
 }

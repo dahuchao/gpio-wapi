@@ -22,7 +22,7 @@
     </style>
     <template>
         <iron-ajax method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='json' auto></iron-ajax>
-        <google-chart type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' rows='{{donnees}}'>
+        <google-chart rows='{{donnees}}' type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' >
         </google-chart>
     </template>
     <script src="/socket.io/socket.io.js"></script>
@@ -63,7 +63,7 @@
                     var floatMesure = parseFloat(temperature.valeur);
                     var dateMesure = new Date(temperature.date);
                     var dateFMesure = dateMesure.getHours() + '/' + dateMesure.getMinutes() + '/' + dateMesure.getSeconds();
-                    this.donnees.push([dateMesure, floatMesure]);
+                    this.donnees.push([dateFMesure, floatMesure]);
                     //console.info('Reception des temperature passées : %s - %s', dateFMesure, floatMesure);
                 }
             }
