@@ -6,13 +6,6 @@
 <link rel="import" href="bower_components/google-chart/google-chart.html">
 <dom-module id="gpio-sonde-temperature">
     <style>
-        :host {
-            display: block;
-            position: relative;
-            background-color: white;
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
         google-chart {
             width: 100%;
             height: 300px;
@@ -20,7 +13,7 @@
     </style>
     <template>
         <iron-ajax method='GET' url='gpio/temperatures' last-response="{{temperaturesPassees}}" handle-as='json' auto></iron-ajax>
-        <google-chart rows='{{donnees}}' type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]' >
+        <google-chart rows='{{donnees}}' type='line' options='{"title": "Température"}' cols='[{"label":"date", "type":"string"}, {"label":"mesure", "type":"number"}]'>
         </google-chart>
     </template>
     <script src="/socket.io/socket.io.js"></script>
@@ -31,12 +24,16 @@
                 temperaturesPassees: {
                     type: Array,
                     observer: 'receptionTemperatures'
+                },
+                donnees: {
+                    type: Array,
+                    value: [['init', 0]]
                 }
             },
             ready: function () {
-                this.donnees = new Array();
-                this.donnees.push(['12 juin', 20]);
-                this.donnees.push(['11 juin', 23]);
+//                donnees = new Array();
+                this.donnees.push(['init', 0]);
+                //                this.donnees.push(['11 juin', 23]);
                 that = this;
                 var hostname = document.location.hostname;
                 var port = document.location.port;
@@ -47,7 +44,7 @@
                 socket.on('temperature', function (temperature) {
                     var floatMesure = parseFloat(temperature.valeur);
                     console.info('Nouvelle mesure : ' + floatMesure);
-                    that.donnees.push([temperature.date, floatMesure]);
+//                    this.donnees.push([temperature.date, floatMesure]);
                     that.donnees.push(["Mai", floatMesure]);
                 });
             },
