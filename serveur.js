@@ -125,7 +125,9 @@ app.get('/gpio/test', function (req, rep) {
 app.put('/gpio/broches/:broche', function (req, rep) {
     console.log("put/gpio/broches/:broche");
     var broche = req.params.broche;
-    console.log('Modification de la broche %s:%s', broche, req.body.etat);
+    console.log('Modification de la broche %s:%s', broche, req.body);
+    var etat = req.body.etat;
+    console.log('Modification de la broche %s:%s', broche, etat);
     gpio.setup(broche, gpio.DIR_OUT, function (erreur) {
         if (erreur) {
             rep.send(erreur);
