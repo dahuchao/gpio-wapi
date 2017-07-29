@@ -134,7 +134,7 @@ app.put('/gpio/broches/:broche', function (req, rep) {
             rep.send(erreur);
         } else {
             // Calcul du nouvel état de la broche
-            var etat = req.body.etat;
+            //var etat = req.body.etat;
             // Changement de l'état de la broche
             gpio.write(broche, etat, function (erreur) {
                 if (erreur) {
