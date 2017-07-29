@@ -8,7 +8,7 @@
             <h1>Application d'allumage de la lumière.</h1>
             <div class="row bureau">
                 <div class="col-sm-12">
-                    <iron-ajax url="gpio/broches/{{pin}}" method="PUT" body="{'etat': false}" auto>
+                    <iron-ajax url="gpio/broches/{{pin}}" method="PUT" body="{'etat':{{etat}}}" auto>
                     </iron-ajax>
                     <!-- shadow DOM here -->
                     <p>Etat : <span>{{etat}}</span>
