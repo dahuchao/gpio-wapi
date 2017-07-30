@@ -57,22 +57,31 @@ Documentation
 
 ### Installation
 
+`docker build -t dahu.chao/gpio-wapi .`
+`docker run -d -p 3000:3000 dahu.chao/gpio-wapi`
+
 L'installation et la configuration réseau du RASPBERRY PI est un prérequis.
 
 L'installation de nodejs est un prérequis.
 
-L'installation de bower est un prérequis :
-> sudo npm install bower -g
-
-Installer l'application
+Installer les sources de l'application
 > git clone https://github.com/dahuchao/gpio-wapi.git
 
 Dans le répertoire de l'application lancer la commande de résolution des dépendances npm : 
 > npm install
 
-Dans le répertoire public de l'application lancer la commande de résolution des dépendances bower : 
-> cd public
-> bower install
+Lancement
+> npm start
+
+#### Lancement pas docker
+
+Fabrication de l'image applicative
+
+`docker build -t dahu.chao/gpio-wapi .`
+
+Démarrage d'un conteneur
+
+`docker run -d -p 3000:3000 dahu.chao/gpio-wapi`
 
 ### Utilisation
 

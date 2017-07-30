@@ -2,7 +2,7 @@
 var fs = require('fs');
 var Hexastore = require('hexastore');
 // Chargement du module de génération d'identifiant unique
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 // Chargement du module utilitaire de date
 require('datejs');
 

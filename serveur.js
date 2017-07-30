@@ -12,7 +12,7 @@ var fs = require('fs');
 // Chargement du module de gestion du port GPIO 
 var gpio = require('rpi-gpio');
 // Chargement du module de génération d'identifiant unique
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 // Chargement du module de base de données en model de graphe Hexastore
 var Hexastore = require('hexastore');
 // Chargement du module de lecture des capteurs DS18B20
