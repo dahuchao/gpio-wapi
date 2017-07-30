@@ -125,18 +125,23 @@ app.get('/gpio/test', function (req, rep) {
 app.put('/gpio/broches/:broche', function (req, rep) {
     console.log("put/gpio/broches/:broche");
     var broche = req.params.broche;
-    console.log('Modification de la broche %s:%s', broche, req.body.etat);
+    var bod = nettoyer(req.body);
+    console.log('Modification de la broche %s:%s', broche, JSON.stringify(bod));
+    var etat = bod.etat;
+    console.log('Modification de la broche %s:%s', broche, etat);
     gpio.setup(broche, gpio.DIR_OUT, function (erreur) {
         if (erreur) {
             rep.send(erreur);
         } else {
             // Calcul du nouvel état de la broche
-            var etat = req.body.etat;
+            //var etat = req.body.etat;
             // Changement de l'état de la broche
             gpio.write(broche, etat, function (erreur) {
                 if (erreur) {
+                    console.log('Erreur sur la modif de la broche:%s', erreur);
                     rep.send(erreur);
                 } else {
+                    console.log('Succé sur la modif de la broche');
                     rep.send('Changement état broche(%s): %s.', broche, etat);
                 }
             });
