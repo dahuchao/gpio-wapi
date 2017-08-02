@@ -81,8 +81,7 @@ Lancement
 ### Utilisation
 
 Lancer le serveur : 
-> sudo node serveur.js
-< Ouvrir l'application dans votre navigateur à l'adresse http://[addresse-ip-pi]:[port-ip-pi]/lumiere
+> Ouvrir l'application dans votre navigateur à l'adresse http://[addresse-ip-pi]:[port-ip-pi]/#!/lum
 
 Le service communique l'adresse de l'application web.
 
