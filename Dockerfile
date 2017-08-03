@@ -1,5 +1,9 @@
-FROM hypriot/rpi-iojs:1.4.1
-MAINTAINER Mathias Renner <mathias@hypriot.com>
+FROM resin/rpi-raspbian
+
+RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+RUN sudo bash nodesource_setup.sh
+RUN sudo apt-get install nodejs
+RUN sudo apt-get install build-essential
 
 # Adding source files into container
 ADD ./ /app
