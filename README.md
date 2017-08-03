@@ -19,23 +19,23 @@ Ce service est une application de Web component Polymer.
 Requête : 
 
 ```
-    GET /gpio/broches/7 HTTP/1.1
-    Host: <www>
+GET /gpio/broches/7 HTTP/1.1
+Host: <www>
 ```
 
 Réponse : 
 
 ```
-    HTTP1/1 200 OK
-    
-    {
-        context:{
-            gpio: http://www/gpio/vocabulaire
-        }
-        @id: http://www/gpio/broches/7,
-        @type: gpio:Etat,
-        etat: true
+HTTP1/1 200 OK
+
+{
+    context:{
+        gpio: http://www/gpio/vocabulaire
     }
+    @id: http://www/gpio/broches/7,
+    @type: gpio:Etat,
+    etat: true
+}
 ```
 
 La requête renvoie l'état de la broche (pin) 7 du port GPIO.
@@ -43,21 +43,21 @@ La requête renvoie l'état de la broche (pin) 7 du port GPIO.
 Exemple d'intégration dans une page web.
 
 ```
-    <!-- Import element -->
-    <link rel="import" href="gpio-broche.html">
-    
-    <!-- Use element -->
-    <gpio-broche pin="7"></gpio-broche>
+<!-- Import element -->
+<link rel="import" href="gpio-broche.html">
+
+<!-- Use element -->
+<gpio-broche pin="7"></gpio-broche>
 ```
 
 #### Consulter le graphique historique de la sonde de température
 
 ```
-    <!-- Import element -->
-    <link rel="import" href="gpio-sonde-temperature.html">
-    
-    <!-- Use element -->
-    <gpio-sonde-temperature></gpio-sonde-temperature>
+<!-- Import element -->
+<link rel="import" href="gpio-sonde-temperature.html">
+
+<!-- Use element -->
+<gpio-sonde-temperature></gpio-sonde-temperature>
 ```
 
 Documentation
