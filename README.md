@@ -78,10 +78,12 @@ Dans le répertoire de l'application lancer la commande de résolution des dépe
 Lancement
 > npm start
 
+Pour la production, voir le wiki sur la [dockerisation](https://github.com/dahuchao/gpio-wapi/wiki/Dockerisation)
+
 ### Utilisation
 
-Lancer le serveur : 
-> Ouvrir l'application dans votre navigateur à l'adresse http://[addresse-ip-pi]:[port-ip-pi]/#!/lum
+Ouvrir l'application dans votre navigateur à l'adresse : 
+> http://[addresse-ip-pi]:[port-ip-pi]/#!/lum
 
 Le service communique l'adresse de l'application web.
 
